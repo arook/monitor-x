@@ -8,10 +8,14 @@ class CoreCommand extends CConsoleCommand {
 
   private function fetch($fetching_id, $asin) {
     $listing = $this->listing($asin);
+    $buybox = $this->buybox($asin);
     foreach ($listing as $item) {
       $detail = new FetchingDetail;
       $detail->attributes = $item;
       $detail->fetching_id = $fetching_id;
+      if ($buybox['seller'] == $item['seller'] && $buybox['price'] == ($item['sell_price'] + $item['shipping_price']) && $buybox['if_fba'] == $item['if_fba']) {
+        $detail->if_buybox = 1;
+      }
       if ($detail->save(true)) {
 
       } else {
@@ -55,7 +59,7 @@ class CoreCommand extends CConsoleCommand {
 		
     $buybox_price = str_replace(',', '.', $matches[1][0]);
     $buybox_seller = ($matches[3][0] ? $matches[3][0] : $matches[2][0]);
-    $buybox_if_fba = ($matches[4][0] == 'Fulfilled by Amazon' ? true : false);
+    $buybox_if_fba = ($matches[4][0] == 'Fulfilled by Amazon' ? 1 : 0);
     
     $reg_shipping = '/<span id="pricePlusShippingQty"><b class="price">\$([^<>]+)<\/b><span class="plusShippingText">.*?\$([^\&]+).*?<\/span><\/span>/is';
     preg_match_all($reg_shipping, $html, $shipping_matches);
