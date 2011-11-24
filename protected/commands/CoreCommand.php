@@ -1,6 +1,7 @@
 <?php
 
 class CoreCommand extends CConsoleCommand {
+
   public function run($args) {
     echo date('Y-m-d H:i:s');
     $asins = $this->get_asin_list();
@@ -9,7 +10,7 @@ class CoreCommand extends CConsoleCommand {
       $event->dt = date('Y-m-d H:i:s');
       $event->asin = $asin->id;
       if ($event->save()) {
-        $this->fetch($event->id, 'B0028CM97K');
+        $this->fetch($event->id, $asin->asin);
       }
     }
   }
