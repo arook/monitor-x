@@ -3,7 +3,19 @@
 class CoreCommand extends CConsoleCommand {
   public function run($args) {
     echo date('Y-m-d H:i:s');
-    $this->fetch(1, 'B0028CM97K');
+    $asins = $this->get_asin_list();
+    foreach ($asins as $asin) {
+      $event = new Fetching;
+      $event->dt = date('Y-m-d H:i:s');
+      $event->asin = $asin->id;
+      if ($event->save()) {
+        $this->fetch($event->id, 'B0028CM97K');
+      }
+    }
+  }
+
+  private function get_asin_list() {
+    return Asin::model()->findAll();
   }
 
   private function fetch($fetching_id, $asin) {
