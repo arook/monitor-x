@@ -12,7 +12,11 @@ class CoreCommand extends CConsoleCommand {
       $detail = new FetchingDetail;
       $detail->attributes = $item;
       $detail->fetching_id = $fetching_id;
-      $detail->save();
+      if ($detail->save(true)) {
+
+      } else {
+        print_r($detail->getErrors());
+      }
     }
   }
 
@@ -34,8 +38,8 @@ class CoreCommand extends CConsoleCommand {
 				'seller'	=>	$matches[3][$key] ? $matches[3][$key] : $matches[4][$key],
         'sell_price' => $matches[1][$key] ? $matches[1][$key] : 0,
 				'shipping_price'		=>	$matches[2][$key] ? $matches[2][$key] : 0,
-				'if_fba'		=>	($matches[5][$key] == 'Fulfillment' ? true : false),
-				'if_buybox'	=>	false
+				'if_fba'		=>	($matches[5][$key] == 'Fulfillment' ? 1 : 0),
+				'if_buybox'	=> 0	
 			);
 		}
     return $list;
