@@ -18,7 +18,7 @@ class MainCommand extends CConsoleCommand {
       
       $asin = $asins[$current];
 
-      if($process->get_alive_count() < 20) {
+      if($process->get_alive_count() < 50) {
         $process->add(sprintf("%s core %s %s", $yiic, $asin->id, $asin->asin));
         echo sprintf("[%s]:%s core %s %s(%s)\n", date("H:i:s"), $yiic, $asin->id, $asin->asin, $process->get_alive_count());
         $current++;
@@ -36,8 +36,6 @@ class MainCommand extends CConsoleCommand {
     $criteria->limit = 50;
     return Asin::model()->findAll($criteria);
      */
-    $criteria = new CDbCriteria();
-    $criteria->limit = 50;
     return Asin::model()->findAll($criteria);
   }
 
