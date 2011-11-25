@@ -36,7 +36,7 @@ class MainCommand extends CConsoleCommand {
     $criteria->limit = 50;
     return Asin::model()->findAll($criteria);
      */
-    return Asin::model()->findAll($criteria);
+    return Asin::model()->findAll();
   }
 
 }
