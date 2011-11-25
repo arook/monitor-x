@@ -9,6 +9,10 @@ class CoreCommand extends CConsoleCommand {
     }
     list($asin_id, $asin) = $args;
 
+    $model = Asin::model()->findByPk($asin_id);
+    $model->retry = $model->retry + 1;
+    $model->save();
+
     $event = new Fetching;
     $event->dt = date('Y-m-d H:i:s');
     $event->asin = $asin_id;
