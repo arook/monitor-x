@@ -6,8 +6,35 @@
  *
  */
 class Process {
-	private $resource;
-	private $pipes;
+	private $resource = array();
+	private $pipes = array();
+
+  public function get_alive_count() {
+    $count = 0;
+    foreach ($this->resource as $key=>$resource) {
+      if (is_resource($resource)) {
+        $status = proc_get_status($resource);
+        if ($status['running'] == 1) {
+          $count++;
+        } else {
+          unset($this->resource[$key]);
+        }
+      }
+    }
+    return $count;
+  }
+
+  public function add($command) {
+
+    $descriptorspec = array(
+			0	=>	array('pipe', 'r'),
+			1	=>	array('pipe', 'w'),
+			2	=>	array('pipe', 'w')
+    );
+
+    $this->resource[] = proc_open($command, $descriptorspec, $this->pipes[], null, $_ENV);
+
+  }
 	
 	public function open($command) {
 		$descriptorspec = array(

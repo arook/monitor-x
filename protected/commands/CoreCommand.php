@@ -11,7 +11,9 @@ class CoreCommand extends CConsoleCommand {
 
     $model = Asin::model()->findByPk($asin_id);
     $model->retry = $model->retry + 1;
-    $model->save();
+    if (!$model->save(true)) {
+      print_r($model->getErrors());
+    }
 
     $event = new Fetching;
     $event->dt = date('Y-m-d H:i:s');
