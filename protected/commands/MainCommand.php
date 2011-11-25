@@ -8,7 +8,7 @@ class MainCommand extends CConsoleCommand {
     $asins = $this->get_asin_list();
     foreach ($asins as $asin) {
       echo sprintf("%s core %s %s", $yiic, $asin->id, $asin->asin);
-      system(sprintf("%s core %s %s", $yiic, $asin->id, $asin->asin));
+      exec(sprintf("%s core %s %s", $yiic, $asin->id, $asin->asin));
     }
   }
 
