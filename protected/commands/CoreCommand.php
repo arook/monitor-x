@@ -96,6 +96,7 @@ class CoreCommand extends CConsoleCommand {
     curl_setopt ($ch, CURLOPT_URL, $url);
     curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    curl_setopt ($ch, CURLOPT_TIMEOUT, $timeout);
     $html_contents = curl_exec($ch);
     curl_close($ch);
     return $html_contents=="" ? false : $html_contents;
