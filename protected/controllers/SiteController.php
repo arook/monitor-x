@@ -27,11 +27,37 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-    $data_provider = new CActiveDataProvider('Fetching');
+    $model = new AsinForm;
+    if (isset($_POST['AsinForm'])) {
+      $model->attributes = $_POST['AsinForm'];
+    }
+    
+    $data_provider = new CActiveDataProvider('FetchingDetail', array(
+      'criteria'=>array(
+        'with'=>array('fetching'),
+      ),
+    ));
+   
     $this->render('index', array(
       'dataProvider'=>$data_provider,
+      'model'=>$model,
     ));
 	}
+
+  public function actionAsinList()
+  {
+    $res = array();
+
+    if (isset($_GET['term'])) {
+      $sql = "select `asin` from `asin` where asin like :asin";
+      $command = Yii::app()->db->createCommand($sql);
+      $command->bindValue(":asin", '%'.$_GET['term'].'%', PDO::PARAM_STR);
+      $res = $command->queryColumn();
+    }
+
+    echo CJSON::encode($res);
+    Yii::app()->end();
+  }
 
 	/**
 	 * This is the action to handle external exceptions.

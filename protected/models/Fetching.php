@@ -7,6 +7,10 @@
  * @property string $id
  * @property string $asin
  * @property string $dt
+ *
+ * The followings are the available model relations:
+ * @property Asin $asin0
+ * @property FetchingDetail[] $fetchingDetails
  */
 class Fetching extends CActiveRecord
 {
@@ -51,6 +55,8 @@ class Fetching extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'asin0' => array(self::BELONGS_TO, 'Asin', 'asin'),
+			'fetchingDetails' => array(self::HAS_MANY, 'FetchingDetail', 'fetching_id'),
 		);
 	}
 

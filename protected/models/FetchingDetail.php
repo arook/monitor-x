@@ -12,6 +12,9 @@
  * @property double $sell_price
  * @property integer $if_buybox
  * @property integer $if_fba
+ *
+ * The followings are the available model relations:
+ * @property Fetching $fetching
  */
 class FetchingDetail extends CActiveRecord
 {
@@ -59,6 +62,7 @@ class FetchingDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'fetching' => array(self::BELONGS_TO, 'Fetching', 'fetching_id'),
 		);
 	}
 
