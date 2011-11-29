@@ -32,9 +32,10 @@ class SiteController extends Controller
       $model->attributes = $_POST['AsinForm'];
     }
     
-    $data_provider = new CActiveDataProvider('FetchingDetail', array(
+    $data_provider = new CActiveDataProvider('Fetching', array(
       'criteria'=>array(
-        'with'=>array('fetching'),
+        'condition'=>'t.asin=\''.$model->asin.'\'',
+        'with'=>array('asin0', 'fetchingDetails'),
       ),
     ));
    
