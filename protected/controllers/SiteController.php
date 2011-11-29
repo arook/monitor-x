@@ -69,7 +69,7 @@ class SiteController extends Controller
     foreach($data as $item) {
       foreach ($keys as $key) {
         if (!array_key_exists($key, $item)) {
-          $item[$key] = '';
+          $item[$key] = 0;
         }
       }
     }
