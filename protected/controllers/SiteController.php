@@ -43,13 +43,19 @@ class SiteController extends Controller
     ));
     */
 
-    $sql = "select `dt`,  `shipping_price` + `sell_price` as `price`, 
+    $sql = sprintf("select `dt`,  `shipping_price` + `sell_price` as `price`, 
       concat(`seller`, if(`if_fba`, '[FBA]', '[NONE]')) as `seller`
       from `fetching_detail` `d`
       left join `fetching` `f`
       on `d`.`fetching_id` = `f`.`id`
       left join `asin` `a`
-      on `f`.`asin` = `a`.`id`";
+      on `f`.`asin` = `a`.`id` 
+      where `a`.`asin` = '%s' 
+      and date(`dt`) between '%s' and '%s'", 
+      $model->asin,
+      $model->date_from,
+      $model->date_to
+    );
     $data_provider = Yii::app()->db->createCommand($sql)->queryAll();
 
     $keys = $data = array();
