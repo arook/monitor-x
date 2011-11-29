@@ -1,6 +1,18 @@
 <div class="view">
 
-  <b><?php echo CHtml::encode($data->dt); ?></b>
+<table>
+  <tr>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+    <td><?php echo CHtml::encode($data->dt); ?></td>
+  </tr>
+</table>
+  <b></b>
   <br />
   <?php
     foreach($data->fetchingDetails as $detail) {

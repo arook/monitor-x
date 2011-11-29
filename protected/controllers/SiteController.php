@@ -32,6 +32,7 @@ class SiteController extends Controller
       $model->attributes = $_POST['AsinForm'];
     }
     
+    /*
     $data_provider = new CActiveDataProvider('Fetching', array(
       'criteria'=>array(
         'condition'=>
@@ -40,9 +41,29 @@ class SiteController extends Controller
         'with'=>array('asin0', 'fetchingDetails'),
       ),
     ));
-   
+    */
+
+    $sql = "select `dt`,  `shipping_price` + `sell_price` as `price`, 
+      concat(`seller`, if(`if_fba`, '[FBA]', '[NONE]')) as `seller`
+      from `fetching_detail` `d`
+      left join `fetching` `f`
+      on `d`.`fetching_id` = `f`.`id`
+      left join `asin` `a`
+      on `f`.`asin` = `a`.`id`";
+    $data_provider = Yii::app()->db->createCommand($sql)->queryAll();
+
+    $keys = $data = array();
+    foreach($data_provider as $item) {
+      if (!array_key_exists($item['seller'], $keys)) {
+        $keys[$item['seller']] = count($keys);
+      }
+      $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
+    }
+
+    print_r($data);
     $this->render('index', array(
-      'dataProvider'=>$data_provider,
+      'keys'=>$keys,
+      'data'=>$data,
       'model'=>$model,
     ));
 	}
