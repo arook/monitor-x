@@ -34,7 +34,9 @@ class SiteController extends Controller
     
     $data_provider = new CActiveDataProvider('Fetching', array(
       'criteria'=>array(
-        'condition'=>'t.asin=\''.$model->asin.'\'',
+        'condition'=>
+          "asin0.asin='".$model->asin."' and date(dt) between '" . $model->date_from . "' and '" . $model->date_to . "'",
+        'order'=>'dt desc',
         'with'=>array('asin0', 'fetchingDetails'),
       ),
     ));

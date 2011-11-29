@@ -36,6 +36,7 @@
     'model'=>$model,
     'options' => array(
       'showAnim'=>'fold',
+      'dateFormat'=>'yy-mm-dd',
     )
   ));
   ?>
@@ -51,6 +52,7 @@
     'model'=>$model,
     'options' => array(
       'showAnim'=>'fold',
+      'dateFormat'=>'yy-mm-dd',
     )
   ));
   ?>

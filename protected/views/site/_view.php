@@ -1,8 +1,19 @@
 <div class="view">
 
-  <b><?php echo CHtml::encode($data->getAttributeLabel('asin')); ?>:</b>
-  <?php echo CHtml::link(CHtml::encode($data->asin), array('view', 'id'=>$data->id)); ?>
-<?php echo CHtml::encode($data->dt); ?>
+  <b><?php echo CHtml::encode($data->dt); ?></b>
   <br />
+  <?php
+    foreach($data->fetchingDetails as $detail) {
+      echo "<dl>";
+      echo "<dd>", $detail->seller, "</dd>";
+      echo "<dd>", $detail->shipping_price, "</dd>";
+/*        $detail->shipping_price, 
+        $detail->sell_price,
+        $detail->if_buybox,
+        $detail->if_fba;
+*/
+      echo "</dl>";
+    }
+  ?>
 
 </div>
