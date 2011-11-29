@@ -66,7 +66,13 @@ class SiteController extends Controller
       $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
     }
 
-    print_r($data);
+    foreach($data as $item) {
+      foreach ($keys as $key) {
+        if (!array_key_exists($key, $item)) {
+          $item[$key] = '';
+        }
+      }
+    }
     $this->render('index', array(
       'keys'=>$keys,
       'data'=>$data,

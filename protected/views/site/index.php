@@ -41,7 +41,7 @@ $this->renderPartial('_form', array('model'=>$model));
 //      'scaleColumns': [2, 0, 1],
       'scaleType': 'allfixed',
       'thickness': 2,
-      'zoomStartTime': new Date('<?php echo date('Y-m-d', strtotime('-1 month'))?>'),
+      'zoomStartTime': new Date('<?php echo $model->date_from?>'),
       });
   }
 
