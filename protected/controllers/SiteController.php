@@ -66,10 +66,10 @@ class SiteController extends Controller
       $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
     }
 
-    foreach($data as $item) {
+    foreach($data as $k=>$item) {
       foreach ($keys as $key) {
         if (!array_key_exists($key, $item)) {
-          $item[$key] = 0;
+          $data[$k][$key] = 0;
         }
       }
     }
