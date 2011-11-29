@@ -38,7 +38,7 @@ $this->renderPartial('_form', array('model'=>$model));
       'displayZoomButtons': true,
       'fill': 30,
       'legendPosition': 'newRow',
-//      'scaleColumns': [2, 0, 1],
+      'scaleColumns': [1],
       'scaleType': 'allfixed',
       'thickness': 2,
       'zoomStartTime': new Date('<?php echo $model->date_from?>'),
