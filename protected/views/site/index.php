@@ -42,7 +42,7 @@ $this->renderPartial('_form', array('model'=>$model));
       'fill': 30,
       'legendPosition': 'newRow',
       'scaleColumns': [1],
-      'scaleType': 'maximized',
+      'scaleType': 'allmaximized',
       'thickness': 2,
       'zoomStartTime': new Date('<?php echo $model->date_from?>'),
       });
