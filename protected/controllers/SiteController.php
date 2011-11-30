@@ -76,7 +76,7 @@ class SiteController extends Controller
           $data[$k][$key] = 0;
         }
       }
-      ksort($data[$k]);
+      krsort($data[$k]);
     }
 
     $this->render('index', array(
