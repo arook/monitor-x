@@ -16,13 +16,14 @@ $this->renderPartial('_form', array('model'=>$model));
   function drawChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'Date');
-    data.addColumn('number', 'Buy Box');
 
     <?php
     foreach($keys as $seller=>$key) {
       echo "data.addColumn('number', '$seller');";
     }
     ?>
+
+    data.addColumn('number', 'Buy Box');
 
     <?php
       foreach($data as $dt=>$detail) {
