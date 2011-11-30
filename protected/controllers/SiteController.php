@@ -76,6 +76,9 @@ class SiteController extends Controller
           $data[$k][$key] = 0;
         }
       }
+      if (!isset($data[$k][-1])) {
+        $data[$k][-1] = 0;
+      }
       krsort($data[$k]);
     }
 
