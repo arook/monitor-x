@@ -44,7 +44,8 @@ class SiteController extends Controller
     */
 
     $sql = sprintf("select `dt`,  `shipping_price` + `sell_price` as `price`, 
-      concat(`seller`, if(`if_fba`, '[FBA]', '[NONE]')) as `seller`
+      concat(`seller`, if(`if_fba`, '[FBA]', '[NONE]')) as `seller`,
+      `if_buybox`
       from `fetching_detail` `d`
       left join `fetching` `f`
       on `d`.`fetching_id` = `f`.`id`
@@ -63,6 +64,9 @@ class SiteController extends Controller
       if (!array_key_exists($item['seller'], $keys)) {
         $keys[$item['seller']] = count($keys);
       }
+      if ($item['if_buybox']) {
+        $data[$item['dt']][-1] = $item['price'];
+      }
       $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
     }
 
@@ -72,7 +76,9 @@ class SiteController extends Controller
           $data[$k][$key] = 0;
         }
       }
+      ksort($data[$k]);
     }
+
     $this->render('index', array(
       'keys'=>$keys,
       'data'=>$data,
