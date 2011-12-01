@@ -39,12 +39,12 @@ $this->renderPartial('_form', array('model'=>$model));
       'displayExactValues': true,
       'displayRangeSelector' : true,
       'displayZoomButtons': true,
-      'fill': 30,
+      'fill': 10,
       'legendPosition': 'newRow',
-      'scaleColumns': [1],
-      'scaleType': 'fixed',
-      'thickness': 2,
-      'zoomStartTime': new Date('<?php echo $model->date_from?>'),
+      'scaleType': 'maximized',
+//      'scaleColumns': [<?php echo implode(',', $keys)?>],
+      'thickness': 0,
+//      'zoomStartTime': new Date('<?php echo $model->date_from?>'),
       });
   }
 

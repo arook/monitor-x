@@ -44,7 +44,7 @@ class SiteController extends Controller
     */
 
     $sql = sprintf("select `dt`,  `shipping_price` + `sell_price` as `price`, 
-      concat(`seller`, if(`if_fba`, '[FBA]', '[NONE]')) as `seller`,
+      concat(`seller`, if(`if_fba`, '[F]', '[N]')) as `seller`,
       `if_buybox`
       from `fetching_detail` `d`
       left join `fetching` `f`
@@ -73,11 +73,11 @@ class SiteController extends Controller
     foreach($data as $k=>$item) {
       foreach ($keys as $key) {
         if (!array_key_exists($key, $item)) {
-          $data[$k][$key] = '';
+          $data[$k][$key] = 'undefined';
         }
       }
       if (!isset($data[$k][-1])) {
-        $data[$k][-1] = '';
+        $data[$k][-1] = 'undefined';
       }
       krsort($data[$k]);
     }
