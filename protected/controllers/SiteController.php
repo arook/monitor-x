@@ -73,11 +73,11 @@ class SiteController extends Controller
     foreach($data as $k=>$item) {
       foreach ($keys as $key) {
         if (!array_key_exists($key, $item)) {
-          $data[$k][$key] = null;
+          $data[$k][$key] = '';
         }
       }
       if (!isset($data[$k][-1])) {
-        $data[$k][-1] = null;
+        $data[$k][-1] = '';
       }
       krsort($data[$k]);
     }
