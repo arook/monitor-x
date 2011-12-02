@@ -26,6 +26,15 @@ class AsinForm extends CFormModel
 		);
 	}
 
+  /**
+   * set default value
+   */
+  public function init()
+  {
+    $this->date_from = date('Y-m-d');
+    $this->date_to = date('Y-m-d');
+  }
+
 	/**
 	 * Declares attribute labels.
 	 */

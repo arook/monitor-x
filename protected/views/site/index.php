@@ -1,52 +1,25 @@
 <?php $this->pageTitle=Yii::app()->name; ?>
 
+<?php $this->renderPartial('_form', array('model'=>$model));?>
+
 <?php
-$this->renderPartial('_form', array('model'=>$model));
-
+$this->widget('CTabView',
+  array(
+    'tabs'=>array(
+      'tab1'=>array(
+        'title'=>'Chart',
+        'view'=>'chart',
+      ),
+      'tab2'=>array(
+        'title'=>'Grid',
+        'view'=>'grid',
+      ),
+    ),
+    'viewData'=>array(
+      'model'=>$model,
+      'keys'=>$keys,
+      'data'=>$data,
+    )
+  )
+);
 ?>
-
-<div id="chart_div" align="center" style="height:500px;width:900px"></div>
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript">
-<!--
-
-  google.load("visualization", "1", {packages:["corechart", 'table', 'motionchart', 'annotatedtimeline']});
-  google.setOnLoadCallback(drawChart);
-
-  function drawChart() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('datetime', 'Date');
-
-    <?php
-    foreach($keys as $seller=>$key) {
-      echo "data.addColumn('number', '$seller');";
-    }
-    ?>
-
-    data.addColumn('number', 'Buy Box');
-
-    <?php
-      foreach($data as $dt=>$detail) {
-        echo sprintf("data.addRow([new Date('%s'), %s]);", $dt, implode(",", $detail));
-      }
-    ?>
-
-    var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
-    chart.draw(data, {
-      width:900, 
-      height:500, 
-      'displayAnnotations': true,
-      'displayExactValues': true,
-      'displayRangeSelector' : true,
-      'displayZoomButtons': true,
-      'fill': 10,
-      'legendPosition': 'newRow',
-      'scaleType': 'maximized',
-//      'scaleColumns': [<?php echo implode(',', $keys)?>],
-      'thickness': 0,
-//      'zoomStartTime': new Date('<?php echo $model->date_from?>'),
-      });
-  }
-
--->
-</script>
