@@ -69,6 +69,7 @@ class SiteController extends Controller
       }
       $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
     }
+    rsort($keys);
 
     foreach($data as $k=>$item) {
       foreach ($keys as $key) {
