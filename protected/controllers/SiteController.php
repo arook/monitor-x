@@ -28,8 +28,8 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
     $model = new AsinForm;
-    if (isset($_POST['AsinForm'])) {
-      $model->attributes = $_POST['AsinForm'];
+    if (isset($_GET['AsinForm'])) {
+      $model->attributes = $_GET['AsinForm'];
     }
     
     /*
@@ -66,6 +66,7 @@ class SiteController extends Controller
       }
       if ($item['if_buybox']) {
         $data[$item['dt']][-1] = $item['price'];
+        $data[$item['dt']][-2] = $keys[$item['seller']];
       }
       $data[$item['dt']][$keys[$item['seller']]] = $item['price'];
     }
@@ -79,6 +80,7 @@ class SiteController extends Controller
       }
       if (!isset($data[$k][-1])) {
         $data[$k][-1] = 'undefined';
+        $data[$k][-2] = '-2';
       }
       krsort($data[$k]);
     }

@@ -3,6 +3,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'asin-form',
+  'method'=>'get',
   'enableClientValidation'=>true,
   'clientOptions'=>array(
     'validateOnSubmit'=>true,

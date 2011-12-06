@@ -20,6 +20,7 @@
 
     <?php
       foreach($data as $dt=>$detail) {
+        unset($detail[-2]);
         echo sprintf("data.addRow([new Date('%s'), %s]);", $dt, implode(",", $detail));
       }
     ?>
