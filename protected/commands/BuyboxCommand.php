@@ -81,22 +81,31 @@ class BuyboxCommand extends CConsoleCommand {
    */
   private function computeRateDiff($asin, $seller, $if_fba, $time_step) {
     $limit = array(1=>1, 3=>6, 7=>24*6);
-    $sql = sprintf("select sum(if(`if_buybox`, 1, 0)) as buybox from `fetching` 
+    $latest = $oldest = 0;
+    $sql = sprintf("select if(`if_buybox`, 1, 0) as buybox from `fetching` 
       left join `fetching_detail`
       on `fetching`.`id` = `fetching_detail`.`fetching_id`
       where `fetching`.`asin` = %s and `fetching_detail`.`seller` = '%s' and `fetching_detail`.`if_fba` = %s
       order by `fetching`.`dt` desc limit %s", $asin->id, $seller, $if_fba, $limit[$time_step]);
-    $result = Yii::app()->db->createCommand($sql)->queryRow();
-    $latest = $result ? $result['buybox'] : 0;
+    $result = Yii::app()->db->createCommand($sql)->queryAll();
+    if ($result) {
+      foreach($result as $item) {
+        $latest += $item['buybox'];
+      }
+    }
 
-    $sql = sprintf("select sum(if(`if_buybox`, 1, 0)) as buybox from `fetching` 
+    $sql = sprintf("select if(`if_buybox`, 1, 0) as buybox from `fetching` 
       left join `fetching_detail`
       on `fetching`.`id` = `fetching_detail`.`fetching_id`
       where `fetching`.`asin` = %s and `fetching_detail`.`seller` = '%s' and `fetching_detail`.`if_fba` = %s
       and `fetching`.`dt` < DATE_SUB(curdate(), INTERVAL %s day)
       order by `fetching`.`dt` desc limit %s", $asin->id, $seller, $if_fba, $time_step, $limit[$time_step]);
     $result = Yii::app()->db->createCommand($sql)->queryRow();
-    $oldest = $result ? $result['buybox'] : 0;
+    if ($result) {
+      foreach ($result as $item) {
+        $oldest += $item['buybox'];
+      }
+    }
 
     $diff = $latest/(24*6*$time_step) - $oldest/(24*6*$time_step);
     return $diff;
