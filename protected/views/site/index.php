@@ -6,13 +6,13 @@
 $this->widget('CTabView',
   array(
     'tabs'=>array(
-      'tab0'=>array(
-        'title'=>'BBR',
-        'view'=>'bbr',
-      ),
       'tab1'=>array(
         'title'=>'Chart',
         'view'=>'chart',
+      ),
+      'tab0'=>array(
+        'title'=>'BBR',
+        'view'=>'bbr',
       ),
       'tab2'=>array(
         'title'=>'Grid',
