@@ -28,7 +28,9 @@ class BuyboxCommand extends CConsoleCommand {
         $bbr->seller = $seller;
         $bbr->if_fba = 0;
         $bbr->rate = $rate;
-        echo $bbr->save();
+        if (!$bbr->save()) {
+          print_r($bbr->getErrors());
+        };
 
         $rate = $this->bbr($asin, $seller, 1, $type);
         $bbr = new BuyboxRate;
