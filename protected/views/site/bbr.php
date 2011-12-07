@@ -1,2 +1,6 @@
 
-<?php $this->widget('zii.widgets.grid.CGridView', array('dataProvider'=>$buybox_provider)); ?>
+<?php
+foreach($buybox as $item) {
+  echo $item['seller'];
+}
+?>

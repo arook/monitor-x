@@ -23,7 +23,7 @@ $this->widget('CTabView',
       'model'=>$model,
       'keys'=>$keys,
       'data'=>$data,
-      'buybox_provider'=>$buybox_provider,
+      'buybox'=>$buybox,
     )
   )
 );
