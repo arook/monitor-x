@@ -85,10 +85,20 @@ class SiteController extends Controller
       krsort($data[$k]);
     }
 
+    $buybox_provider = new CActiveDataProvider('BuyboxRate', array(
+      'criteria'=>array(
+        'condition'=>'',
+        'with'=>'asin0',
+        'order'=>'dt DESC',
+        'limit'=>'6',
+      ),
+    ));
+
     $this->render('index', array(
       'keys'=>$keys,
       'data'=>$data,
       'model'=>$model,
+      'buybox_provider'=>$buybox_provider,
     ));
 	}
 
