@@ -20,7 +20,8 @@ class BuyboxCommand extends CConsoleCommand {
 
     foreach ($asins as $asin) {
       foreach ($this->_seller as $seller) {
-        $rate = $this->bbr($asin, $seller, 0, $type);
+        //$rate = $this->bbr($asin, $seller, 0, $type);
+        $rate = $this->realRate($asin, $seller, $type, 0);
         $bbr = new BuyboxRate;
         $bbr->type = $type;
         $bbr->dt = $dt;
@@ -30,7 +31,8 @@ class BuyboxCommand extends CConsoleCommand {
         $bbr->rate = $rate;
         $bbr->save();
 
-        $rate = $this->bbr($asin, $seller, 1, $type);
+        //$rate = $this->bbr($asin, $seller, 1, $type);
+        $rate = $this->realRate($asin, $seller, $type, 1);
         $bbr = new BuyboxRate;
         $bbr->type = $type;
         $bbr->dt = $dt;
