@@ -28,7 +28,7 @@ class BuyboxCommand extends CConsoleCommand {
         $bbr->seller = $seller;
         $bbr->if_fba = 0;
         $bbr->rate = $rate;
-        echo $bbr->save();
+        $bbr->save();
 
         $rate = $this->bbr($asin, $seller, 1, $type);
         $bbr = new BuyboxRate;
@@ -38,7 +38,7 @@ class BuyboxCommand extends CConsoleCommand {
         $bbr->seller = $seller;
         $bbr->if_fba = 1;
         $bbr->rate = $rate;
-        echo $bbr->save();
+        $bbr->save();
       }
     }
   }
@@ -46,7 +46,7 @@ class BuyboxCommand extends CConsoleCommand {
   private function bbr($asin, $seller, $if_fba, $type) {
     $A = $this->currentRate($asin, $seller, $type, $if_fba);
     $diff = $this->computeRateDiff($asin, $seller, $if_fba, $type);
-    return $A + $diff;
+    return sprintf("%.4f", $A + $diff);
   }
 
   /**
