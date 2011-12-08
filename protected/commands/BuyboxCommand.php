@@ -69,13 +69,13 @@ class BuyboxCommand extends CConsoleCommand {
   }
 
   private function realRate($asin, $seller, $type, $if_fba) {
-    $sql = sprintf("SELECT sum(if(if_buybox, 1, 0))/count(*) as `rate` FROM `fetching` a
+    $sql = sprintf("SELECT sum(if(if_buybox, 1, 0)) as `rate` FROM `fetching` a
         left join `fetching_detail` b
         on a.id = b.fetching_id
         where b.`seller` = '%s' and a.`asin` = %s
         and b.`if_fba` = %s and a.`dt` > DATE_SUB(now(), INTERVAL %s day)", $seller, $asin->id, $if_fba, $type);
     $result = Yii::app()->db->createCommand($sql)->queryRow();
-    return sprintf("%.4f", $result['rate']);
+    return sprintf("%.4f", $result['rate']/24*6*$type);
   }
 
   /**
