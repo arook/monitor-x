@@ -46,7 +46,7 @@ class SiteController extends Controller
     ));
     */
 
-    $sql = sprintf("select `dt`,  `shipping_price` + `sell_price` as `price`, 
+    $sql = sprintf("select `f`.`id` as `id`, `dt`,  `shipping_price` + `sell_price` as `price`, 
       concat(`seller`, if(`if_fba`, '[F]', '[N]')) as `seller`,
       `if_buybox`
       from `fetching_detail` `d`
@@ -142,6 +142,21 @@ class SiteController extends Controller
 
     echo CJSON::encode($res);
     Yii::app()->end();
+  }
+
+  public function actionIssue($dt, $asin)
+  {
+    $sql = sprintf("select b.`id` as `id`
+      from `asin` a
+      left join `fetching` b
+      on `a`.`id` = `b`.`asin`
+      where a.`asin` = '%s' and b.`dt` = '%s'", $asin, $dt);
+
+    $result = Yii::app()->db->createCommand($sql)->queryRow();
+    if ($result) {
+      $issue = FetchingIssue::model()->findByPk($result['id']);
+      $this->render('issue', array('issue'=>$issue));
+    }
   }
 
 	/**

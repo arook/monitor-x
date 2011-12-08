@@ -18,7 +18,11 @@ echo "<th title='$seller'>", substr($seller, 0, 4), "</thd>";
   if ($k == $bb) {
     echo "<td bgcolor='blue'>", $val, "</td>";
   } else {
-    echo "<td>", $val, "</td>";
+    if ($val == 'undefined') {
+      echo "<td>", CHtml::link($val, array('site/issue', 'dt'=>$dt, 'asin'=>$model->asin), array('target'=>'_blank')), "</td>";
+    } else {
+      echo "<td>", $val, "</td>";
+    }
   }
 }
 ?>
