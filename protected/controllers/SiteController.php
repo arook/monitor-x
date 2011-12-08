@@ -90,7 +90,7 @@ class SiteController extends Controller
       on a.`id` = b.`asin`
       where a.asin = '%s'
       order by b.`dt` DESC
-      limit 6", $model->asin);
+      limit 18", $model->asin);
     $buybox=Yii::app()->db->createCommand($sql)->queryAll();
     $this->render('index', array(
       'keys'=>$keys,
