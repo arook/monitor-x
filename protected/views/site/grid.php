@@ -1,5 +1,3 @@
-<?php $this->pageTitle=Yii::app()->name; ?>
-
 <table style="width:900px;overflow:auto;display:block;">
 <tr>
 <th>DT</th>
@@ -11,6 +9,7 @@ echo "<th title='$seller'>", substr($seller, 0, 4), "</thd>";
 <th>BB</th>
 </tr>
 <tbody>
+<?php krsort($data); ?>
 <?php foreach($data as $dt=>$item):?>
 <?php $bb = $item[-2];unset($item[-2]);?>
 <tr>

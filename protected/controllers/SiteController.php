@@ -85,12 +85,38 @@ class SiteController extends Controller
       krsort($data[$k]);
     }
 
-    $sql = sprintf("select * from `asin` a
-      left join `buybox_rate` b
-      on a.`id` = b.`asin`
-      where a.asin = '%s'
-      order by b.`dt` DESC
-      limit 18", $model->asin);
+    $asin = Asin::model()->findByAttributes(array('asin'=>$model->asin));
+
+    $sql = sprintf("SELECT t1.seller AS seller, t1.if_fba AS if_fba, t1.rate AS rate1, t2.rate AS rate2, t3.rate AS rate3
+      FROM (
+        
+        SELECT * 
+        FROM  `buybox_rate` 
+        WHERE TYPE =  '1'
+        AND asin = %s
+        ORDER BY  `dt` DESC 
+        LIMIT 6
+      ) AS t1
+      LEFT JOIN (
+        
+        SELECT * 
+        FROM  `buybox_rate` 
+        WHERE TYPE =  '3'
+        AND asin = %s
+        ORDER BY  `dt` DESC 
+        LIMIT 6
+      ) AS t2 ON t1.seller = t2.seller
+      AND t1.if_fba = t2.if_fba
+      LEFT JOIN (
+        
+        SELECT * 
+        FROM  `buybox_rate` 
+        WHERE TYPE =  '7'
+        AND asin = %s
+        ORDER BY  `dt` DESC 
+        LIMIT 6
+      ) AS t3 ON t2.seller = t3.seller
+      AND t2.if_fba = t3.if_fba", $asin->id, $asin->id, $asin->id);
     $buybox=Yii::app()->db->createCommand($sql)->queryAll();
     $this->render('index', array(
       'keys'=>$keys,
