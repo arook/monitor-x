@@ -73,7 +73,7 @@ class BuyboxCommand extends CConsoleCommand {
         left join `fetching_detail` b
         on a.id = b.fetching_id
         where b.`seller` = '%s' and a.`asin` = %s
-        and b.`if_fba` = %s and a.`dt` > DATE_SUB(curdate(), INTERVAL %s day)", $seller, $asin->id, $if_fba, $type);
+        and b.`if_fba` = %s and a.`dt` > DATE_SUB(now(), INTERVAL %s day)", $seller, $asin->id, $if_fba, $type);
     $result = Yii::app()->db->createCommand($sql)->queryRow();
     return sprintf("%.4f", $result['rate']);
   }
@@ -100,7 +100,7 @@ class BuyboxCommand extends CConsoleCommand {
       left join `fetching_detail`
       on `fetching`.`id` = `fetching_detail`.`fetching_id`
       where `fetching`.`asin` = %s and `fetching_detail`.`seller` = '%s' and `fetching_detail`.`if_fba` = %s
-      and `fetching`.`dt` < DATE_SUB(curdate(), INTERVAL %s day)
+      and `fetching`.`dt` < DATE_SUB(now(), INTERVAL %s day)
       order by `fetching`.`dt` desc limit %s", $asin->id, $seller, $if_fba, $time_step, $limit[$time_step]);
     $result = Yii::app()->db->createCommand($sql)->queryRow();
     if ($result) {
@@ -119,7 +119,7 @@ class BuyboxCommand extends CConsoleCommand {
         left join `fetching_detail` b
         on a.id = b.fetching_id
         where b.`seller` = '%s' and a.`asin` = %s
-        and b.`if_fba` =1 and a.`dt` > DATE_SUB(curdate(), INTERVAL %s day)", $seller, $asin->id, $type);
+        and b.`if_fba` =1 and a.`dt` > DATE_SUB(now(), INTERVAL %s day)", $seller, $asin->id, $type);
       $result = Yii::app()->db->createCommand($sql)->queryAll();
       $bbr = new BuyboxRate;
       $bbr->type = $type;
