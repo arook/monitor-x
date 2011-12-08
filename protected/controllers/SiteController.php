@@ -30,6 +30,9 @@ class SiteController extends Controller
     $model = new AsinForm;
     if (isset($_GET['AsinForm'])) {
       $model->attributes = $_GET['AsinForm'];
+    } else {
+      $this->render('index', array('model'=>$model));
+      Yii::app()->end();
     }
     
     /*
