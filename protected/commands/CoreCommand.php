@@ -2,6 +2,9 @@
 
 class CoreCommand extends CConsoleCommand {
 
+  private $_content_listing;
+  private $_content_buybox;
+
   public function run($args) {
     echo date('Y-m-d H:i:s');
     if (count($args) <> 2) {
@@ -26,12 +29,14 @@ class CoreCommand extends CConsoleCommand {
   private function fetch($fetching_id, $asin) {
     $listing = $this->listing($asin);
     $buybox = $this->buybox($asin);
+    $buybox_returned = false;
     foreach ($listing as $item) {
       $detail = new FetchingDetail;
       $detail->attributes = $item;
       $detail->fetching_id = $fetching_id;
       if ($buybox['seller'] == $item['seller'] && $buybox['price'] == ($item['sell_price'] + $item['shipping_price']) && $buybox['if_fba'] == $item['if_fba']) {
         $detail->if_buybox = 1;
+        $buybox_returned = true;
       }
       if ($detail->save(true)) {
 
@@ -39,11 +44,31 @@ class CoreCommand extends CConsoleCommand {
         print_r($detail->getErrors());
       }
     }
+
+    if (!$buybox_returned) {
+      $this->issue($fetching_id);
+    }
+  }
+
+  /**
+   *
+   * @var $fetching_id Fetching
+   */
+  private function issue($fetching_id) {
+    $issue = new FetchingIssue;
+    $issue->fetching_id = $fetching_id;
+    $issue->fetching_listing = $this->_content_listing;
+    $issue->fetching_buybox = $this->_content_buybox;
+    if (!$issue->save()) {
+      print_r($issue->getErrors());
+    }
   }
 
   private function listing($asin) {
     $url = sprintf("http://www.amazon.com/gp/offer-listing/%s/sr=/qid=/ref=olp_tab_new?ie=UTF8&coliid=&me=&qid=&sr=&seller=&colid=&condition=new", $asin);
 		$html = $this->_fetch($url);
+    $this->_content_listing = $html;
+    $list = array();
 		
     if ($point = strpos($html, '<h2>New</h2>')) {
       $html = substr($html, 0, $point);
@@ -70,6 +95,7 @@ class CoreCommand extends CConsoleCommand {
   private function buybox($asin) {
     $url = sprintf("http://www.amazon.com/gp/product/%s", $asin);
 		$html = $this->_fetch($url);
+    $this->_content_buybox = $html;
 		
     $reg = '/<b class="priceLarge">\$([^<>]+)<\/b>.*?<div class="buying" style="[^"]+">.*?<span class="avail[^"]+">In Stock.*?<\/span><br \/>.*?(?:Ships from and sold by <b><a href="[^"]+">(.*?)<\/a>.*?)?(?:Sold by <b><a href="[^"]+">(.*?)<\/a><\/b> and.*?)?(?:<a href="[^"]+" id="[^"]+"><strong>(.*?)<\/strong>.*?)?<\/[b|a]?>\./is';
 		preg_match_all($reg, $html, $matches);
