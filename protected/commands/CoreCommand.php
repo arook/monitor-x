@@ -57,8 +57,8 @@ class CoreCommand extends CConsoleCommand {
   private function issue($fetching_id) {
     $issue = new FetchingIssue;
     $issue->fetching_id = $fetching_id;
-    $issue->fetching_listing = $this->_content_listing;
-    $issue->fetching_buybox = $this->_content_buybox;
+    $issue->content_listing = $this->_content_listing;
+    $issue->content_buybox = $this->_content_buybox;
     if (!$issue->save()) {
       print_r($issue->getErrors());
     }
@@ -123,6 +123,8 @@ class CoreCommand extends CConsoleCommand {
     curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
     curl_setopt ($ch, CURLOPT_TIMEOUT, $timeout);
+//    curl_setopt ($ch, CURLOPT_PROXY, "127.0.0.1:8889");
+//    curl_setopt ($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
     $html_contents = curl_exec($ch);
     curl_close($ch);
     return $html_contents=="" ? false : $html_contents;
