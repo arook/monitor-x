@@ -75,7 +75,7 @@ class BuyboxCommand extends CConsoleCommand {
         where b.`seller` = '%s' and a.`asin` = %s
         and b.`if_fba` = %s and a.`dt` > DATE_SUB(now(), INTERVAL %s day)", $seller, $asin->id, $if_fba, $type);
     $result = Yii::app()->db->createCommand($sql)->queryRow();
-    return sprintf("%.4f", $result['rate']/24*6*$type);
+    return sprintf("%.4f", $result['rate']/(24*6*$type));
   }
 
   /**
