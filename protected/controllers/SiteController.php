@@ -27,7 +27,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-     $sql = "SELECT * 
+     $sql = "SELECT c.`asin` as `asin`, `dt` 
       FROM  `fetching_issue` a
       LEFT JOIN  `fetching` b ON a.fetching_id = b.id
       LEFT JOIN  `asin` c ON b.`asin` = c.`id` 

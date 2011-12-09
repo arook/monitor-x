@@ -2,10 +2,10 @@
 
 
 <div style="float:right;display:block;border:0px solid black;width:750px;height:160px;margin-top:5px;">
-Issues:
+Issues:<br />
 <?php
 foreach ($issues as $issue) {
-  echo CHtml::link($issue['asin'] . ':' . $issue['dt'], array('site/issue', 'asin'=>$issue['asin'], 'dt'=>$issue['dt']), array('target'=>'_blank')), " ";
+  echo CHtml::link($issue['asin'], array('site/issue', 'asin'=>$issue['asin'], 'dt'=>$issue['dt']), array('target'=>'_blank')), " ", $issue['dt'], "<br/>";
 }
 ?>
 </div>
