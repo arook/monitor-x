@@ -27,11 +27,19 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-    $model = new AsinForm;
+     $sql = "SELECT * 
+      FROM  `fetching_issue` a
+      LEFT JOIN  `fetching` b ON a.fetching_id = b.id
+      LEFT JOIN  `asin` c ON b.`asin` = c.`id` 
+      ORDER BY a.`fetching_id` DESC
+      LIMIT 10";
+    $issues = Yii::app()->db->createCommand($sql)->queryAll();
+
+   $model = new AsinForm;
     if (isset($_GET['AsinForm'])) {
       $model->attributes = $_GET['AsinForm'];
     } else {
-      $this->render('index', array('model'=>$model));
+      $this->render('index', array('model'=>$model, 'issues'=>$issues));
       Yii::app()->end();
     }
     
@@ -121,11 +129,13 @@ class SiteController extends Controller
       ) AS t3 ON t2.seller = t3.seller
       AND t2.if_fba = t3.if_fba", $asin->id, $asin->id, $asin->id);
     $buybox=Yii::app()->db->createCommand($sql)->queryAll();
+
     $this->render('index', array(
       'keys'=>$keys,
       'data'=>$data,
       'model'=>$model,
       'buybox'=>$buybox,
+      'issues'=>$issues,
     ));
 	}
 

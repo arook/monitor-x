@@ -1,5 +1,15 @@
 <?php $this->pageTitle=Yii::app()->name; ?>
 
+
+<div style="float:right;display:block;border:0px solid black;width:750px;height:160px;margin-top:5px;">
+Issues:
+<?php
+foreach ($issues as $issue) {
+  echo CHtml::link($issue['asin'] . ':' . $issue['dt'], array('site/issue', 'asin'=>$issue['asin'], 'dt'=>$issue['dt']), array('target'=>'_blank')), " ";
+}
+?>
+</div>
+
 <?php $this->renderPartial('_form', array('model'=>$model));?>
 
 <?php
