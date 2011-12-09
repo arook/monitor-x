@@ -104,7 +104,7 @@ class CoreCommand extends CConsoleCommand {
     $buybox_seller = ($matches[3][0] ? $matches[3][0] : $matches[2][0]);
     $buybox_if_fba = ($matches[4][0] == 'Fulfilled by Amazon' ? 1 : 0);
     
-    $reg_shipping = '/<span id="pricePlusShippingQty"><b class="price">\$([^<>]+)<\/b><span class="plusShippingText">.*?\$([^\&]+).*?<\/span><\/span>/is';
+    $reg_shipping = '/<span id="pricePlusShippingQty"><b class="price">\$([^<>]+)<\/b><span class="plusShippingText">.*?(?:\$([^\&]+).*?)?(?:(Free Shipping).*?)?<\/span><\/span>/is';
     preg_match_all($reg_shipping, $html, $shipping_matches);
 
     if (count($shipping_matches[0]) > 0) {
