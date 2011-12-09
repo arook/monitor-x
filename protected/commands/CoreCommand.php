@@ -4,6 +4,7 @@ class CoreCommand extends CConsoleCommand {
 
   private $_content_listing;
   private $_content_buybox;
+  private $_need_save_content = false;
 
   public function run($args) {
     echo date('Y-m-d H:i:s');
@@ -45,9 +46,28 @@ class CoreCommand extends CConsoleCommand {
       }
     }
 
+    //如果buybox返回空
     if (!$buybox_returned) {
-      $this->issue($fetching_id);
+      $this->_need_save_content = true;
     }
+
+    //如果buybox的降幅大于10%
+    $sql = sprintf("SELECT sell_price + shipping_price AS price
+      FROM  `asin` a
+      LEFT JOIN  `fetching` b ON a.`id` = b.`asin` 
+      LEFT JOIN  `fetching_detail` c ON b.`id` = c.`fetching_id` 
+      WHERE a.`asin` =  '%s'
+      AND b.`dt` > DATE_SUB( NOW( ) , INTERVAL 1 HOUR ) 
+      AND if_buybox =1
+      ORDER BY dt DESC 
+      LIMIT 2", $asin);
+    $rows = Yii::app()->db->createCommand($sql)->queryAll();
+    if (count($rows) == 2 && ($rows[0]['price'] < 0.9 * $rows[1]['price'])) {
+      $this->_need_save_content = true;
+    }
+
+
+    $this->issue($fetching_id);
   }
 
   /**
@@ -55,6 +75,8 @@ class CoreCommand extends CConsoleCommand {
    * @var $fetching_id Fetching
    */
   private function issue($fetching_id) {
+    if (!$this->_need_save_content)
+      return;
     $issue = new FetchingIssue;
     $issue->fetching_id = $fetching_id;
     $issue->content_listing = $this->_content_listing;
