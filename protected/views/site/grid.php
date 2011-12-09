@@ -9,7 +9,7 @@ echo "<th title='$seller'>", substr($seller, 0, 4), "</thd>";
 <th>BB</th>
 </tr>
 <tbody>
-<?php krsort($data);$buybox_price = 0; ?>
+<?php krsort($data); ?>
 <?php foreach($data as $dt=>$item):?>
 <?php $bb = $item[-2];unset($item[-2]);?>
 <tr>
@@ -18,7 +18,7 @@ echo "<th title='$seller'>", substr($seller, 0, 4), "</thd>";
   if ($k == $bb) {
     echo "<td bgcolor='blue'>", $val, "</td>";
   } else {
-    if ($k == -1 && ($val == 'undefined' || $val < 0.9 * $buybox_price)) {
+    if ($k == -1) {
       echo "<td>", CHtml::link($val, array('site/issue', 'dt'=>$dt, 'asin'=>$model->asin), array('target'=>'_blank')), "</td>";
     } else {
       echo "<td>", $val, "</td>";
@@ -27,7 +27,6 @@ echo "<th title='$seller'>", substr($seller, 0, 4), "</thd>";
 }
 ?>
 </tr>
-<?php $buybox_price = $item[-1];?>
 <?php endforeach;?>
 </tbody>
 </table>
