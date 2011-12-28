@@ -58,15 +58,17 @@ class ServiceController extends CController {
     }
 
     foreach ($x1 as $k=>$v) {
-      if ($x7[$k] && $v > 2 * $x7[$k]) {
-        $return[$k] = 1;
-      } elseif ($x7[$k] && $v < 0.5 * $x7[$k]) {
-        $return[$k] = -1;
-      } else {
-        $return[$k] = 0;
+      if (array_key_exists($k, $x7)) {
+        if ($v > 2 * $x7[$k]) {
+          $return[$k] = 1;
+        } elseif ($v < 0.5 * $x7[$k]) {
+          $return[$k] = -1;
+        } else {
+          $return[$k] = 0;
+        }
       }
-
     }
+
     return $return;
   }
 
