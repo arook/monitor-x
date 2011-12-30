@@ -29,10 +29,10 @@ class ServiceController extends CController {
     $return = array();
     $x1 = $x7 = array();
     $sql = sprintf("
-      SELECT `asin`.`asin` as `asin`, `if_fba`, `rate`·
+      SELECT `asin`.`asin` as `asin`, `if_fba`, `rate` 
       FROM  `asin` 
       LEFT JOIN  `buybox_rate` ON  `buybox_rate`.asin =  `asin`.`id` 
-      WHERE TYPE =1
+      WHERE TYPE = '1'
       AND seller =  '%s'
       ", $seller);
     $results = BuyboxRate::model()->findAllBySql($sql);
@@ -41,10 +41,10 @@ class ServiceController extends CController {
     }
 
     $sql = sprintf("
-      SELECT `asin`.`asin` as `asin`, `if_fba`, `rate`·
+      SELECT `asin`.`asin` as `asin`, `if_fba`, `rate` 
       FROM  `asin` 
       LEFT JOIN  `buybox_rate` ON  `buybox_rate`.asin =  `asin`.`id` 
-      WHERE TYPE = 7
+      WHERE TYPE = '7'
       AND seller =  '%s'
       ", $seller);
 
