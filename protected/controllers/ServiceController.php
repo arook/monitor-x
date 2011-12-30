@@ -32,10 +32,8 @@ class ServiceController extends CController {
       SELECT `asin`.`asin` as `asin`, `if_fba`, `rate`·
       FROM  `asin` 
       LEFT JOIN  `buybox_rate` ON  `buybox_rate`.asin =  `asin`.`id` 
-      WHERE dt >= DATE_SUB( NOW( ) , INTERVAL 1 HOUR ) 
-      AND TYPE =1
+      WHERE AND TYPE =1
       AND seller =  '%s'
-      ORDER BY dt DESC
       ", $seller);
     $results = BuyboxRate::model()->findAllBySql($sql);
     foreach ($results as $result) {
@@ -46,10 +44,8 @@ class ServiceController extends CController {
       SELECT `asin`.`asin` as `asin`, `if_fba`, `rate`·
       FROM  `asin` 
       LEFT JOIN  `buybox_rate` ON  `buybox_rate`.asin =  `asin`.`id` 
-      WHERE dt >= DATE_SUB( NOW( ) , INTERVAL 1 DAY) 
-      AND TYPE = 7
+      WHERE AND TYPE = 7
       AND seller =  '%s'
-      ORDER BY dt DESC
       ", $seller);
 
     $results = BuyboxRate::model()->findAllBySql($sql);
