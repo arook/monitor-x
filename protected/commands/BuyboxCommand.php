@@ -16,6 +16,9 @@ class BuyboxCommand extends CConsoleCommand {
       throw new CException('args must in (1, 3, 7)');
     }
 
+    //remove history data
+    BuyboxRate::model()->deleteAll("`type`='$type'");
+
     $asins = Asin::model()->findAll();
 
     foreach ($asins as $asin) {
