@@ -11,7 +11,7 @@ class CleanCommand extends CConsoleCommand {
 
     if ($result->getRowCount()) {
       while ($fetching = $result->read()) {
-        echo $fetching['id'];
+        echo $fetching['dt'];
         $this->deleteFetching($fetching['id']);
       }
     }
