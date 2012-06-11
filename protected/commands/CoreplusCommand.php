@@ -50,11 +50,11 @@ class CoreplusCommand extends CConsoleCommand {
       if(!Redis::client()->hexists('sellers', $item['sid'])) {
         $sid = Redis::client()->incr(self::SELLER_ID);
         Redis::client()->hset('sellers', $item['sid'], $sid);
+        Redis::client()->set(sprintf(self::SELLER_NAME, $sid), $item['seller']);
+        Redis::client()->set(sprintf(self::SELLER_AVATAR, $sid), $item['avatar']);
       } else {
-        $sid = Redis::client()->hget('sellers', $item['sid']);
+        //$sid = Redis::client()->hget('sellers', $item['sid']);
       }
-      Redis::client()->set(sprintf(self::SELLER_NAME, $sid), $item['seller']);
-      Redis::client()->set(sprintf(self::SELLER_AVATAR, $sid), $item['avatar']);
 
       unset($item['avatar'], $item['rank'], $item['seller']);
       Redis::client()->rpush(sprintf(self::FETCHING_LIST, $fid), CJSON::encode($item));
