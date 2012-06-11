@@ -11,10 +11,12 @@
  */
 class FetchingListDataProvider extends CDataProvider {
   public $keyField = 'id';
+  public $aid;
   public $keyName;
 
   public function __construct($asin, $config=array()) {
     $asinId = Redis::client()->hget('asins', $asin);
+    $this->aid = $asinId;
     $this->keyName = 'asin:'.$asinId.':fetch';
     foreach($config as $key=>$value)
       $this->$key=$value;
@@ -26,16 +28,17 @@ class FetchingListDataProvider extends CDataProvider {
 
     if(($pagination=$this->getPagination())!==false) {
       $pagination->setItemCount($this->getTotalItemCount());
-      $list = Redis::client()->lrange($this->keyName, $pagination->getOffset(), $pagination->getLimit());
+      $list = Redis::client()->sort($this->keyName, array('sort'=>'desc', 'limit'=>array($pagination->getOffset(), $pagination->getLimit())));
       $return = array();
       foreach($list as $fid) {
         $fetch = array(
           'id'=>$fid,
           'time'=>Redis::client()->get('fetch:'.$fid.':time'),
-          'bs'=>Redis::client()->get('fetch:'.$fid.':seller'),
-          'bp'=>Redis::client()->get('fetch:'.$fid.':bp'),
+          //'bs'=>Redis::client()->get('fetch:'.$fid.':seller'),
+          //'bp'=>Redis::client()->get('fetch:'.$fid.':bp'),
         );
-        $ranks = Redis::client()->lrange('fetch:'.$fid.':list', 0, 15);
+        $fs = Redis::client()->get('asin:'.$this->aid.':fs');
+        $ranks = Redis::client()->lrange('fetch:'.$fid.':list', 0, $fs);
         foreach($ranks as $key=>$rank) {
           $fetch['r'.$key] = $rank;
         }
