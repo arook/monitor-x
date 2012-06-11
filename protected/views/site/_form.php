@@ -4,6 +4,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'asin-form',
   'method'=>'get',
+  'action'=>$this->createUrl('site/main'),
   'enableClientValidation'=>true,
   'clientOptions'=>array(
     'validateOnSubmit'=>true,
