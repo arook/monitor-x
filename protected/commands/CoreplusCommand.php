@@ -47,7 +47,7 @@ class CoreplusCommand extends CConsoleCommand {
       }
 
       //handle sellers && avatar
-      if(!Redis::client()->hexists('sellers', $item['seller'])) {
+      if(!Redis::client()->hexists('sellers', $item['sid'])) {
         $sid = Redis::client()->incr(self::SELLER_ID);
         Redis::client()->hset('sellers', $item['sid'], $sid);
       } else {
