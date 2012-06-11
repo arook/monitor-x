@@ -164,8 +164,35 @@ class SiteController extends Controller
     ));
 	}
 
+  public function actionMain()
+  {
+    $form = new AsinForm;
+    if(isset($_REQUEST['AsinForm'])) {
+      $form->attributes = $_REQUEST['AsinForm'];
+    }
+
+    $dataProvider = new FetchingListDataProvider($form->asin);
+    $aid = Redis::client()->hget('asins', $form->asin);
+    $columns = array();
+    for($i=0;$i<Redis::client()->get('asin:'.$aid.':fs'); $i++)
+      $columns[] = array('name'=>'r'.$i, 'header'=>$i+1, 'type'=>'rank');
+
+    $this->render('main', array(
+      'form'=>$form,
+      'dataProvider'=>$dataProvider,
+      'columns'=>$columns,
+    ));
+  }
+
   public function actionAsinList()
   {
+    $list = array();
+    foreach(Redis::client()->hkeys('asins') as $asin) {
+      if(stristr($asin, $_GET['term']))
+        $list[] = $asin;
+    }
+    echo CJSON::encode($list);
+    Yii::app()->end();
     $res = array();
 
     if (isset($_GET['term'])) {
