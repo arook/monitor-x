@@ -1,52 +1,21 @@
 <?php
-$this->breadcrumbs=array(
-	'Asins'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Asin','url'=>array('index')),
-	array('label'=>'Create Asin','url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('asin-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <h1>Manage Asins</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
+<?php $this->widget('bootstrap.widgets.BootButton', array(
+  'label'=>'New Asin',
+  'icon'=>'plus-sign',
+  'url'=>$this->createUrl('/asin1/create'),
+));?>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
-<?php $this->widget('bootstrap.widgets.BootGridView',array(
-	'id'=>'asin-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'id',
-		'asin',
-		'retry',
-		array(
-			'class'=>'bootstrap.widgets.BootButtonColumn',
-		),
-	),
-)); ?>
+<?php foreach($asins as $row):?>
+<div class="row-fluid">
+  <?php foreach($row as $asin=>$key):?>
+    <div class="span2">
+      <a href="<?php echo $this->createUrl('/site/main', array('AsinForm[asin]'=>$asin));?>"><?php echo $asin;?></a>
+      <a href="<?php echo $this->createUrl('/asin1/delete', array('id'=>$asin));?>"><span class="icon-trash"></span></a>
+    </div>
+  <?php endforeach;?>
+</div>
+<?php endforeach;?>

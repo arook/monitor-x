@@ -6,7 +6,7 @@ class Asin1Controller extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='//layouts/column1';
 
 	/**
 	 * @return array action filters
@@ -69,8 +69,11 @@ class Asin1Controller extends Controller
 		if(isset($_POST['Asin']))
 		{
 			$model->attributes=$_POST['Asin'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+      if(!Redis::client()->hexists('asins', $model->asin)){
+        $aid = Redis::client()->incr('ids:nextAsin');
+        Redis::client()->hset('asins', $model->asin, $aid);
+      }
+      $this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -108,19 +111,28 @@ class Asin1Controller extends Controller
 	 * @param integer $id the ID of the model to be deleted
 	 */
 	public function actionDelete($id)
-	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+  {
+    //remove all fetching
+    $aid = Redis::client()->hget('asins', $id);
+    Redis::client()->del("asin:{$aid}:fs");
+    $fetches = Redis::client()->lrange(
+      "asin:{$aid}:fetch",
+      0,
+      Redis::client()->llen("asin:{$aid}:fetch")
+    );
+    foreach($fetches as $fid) {
+      Redis::client()->del("fetch:{$fid}:list");
+      Redis::client()->del("fetch:{$fid}:seller");
+      Redis::client()->del("fetch:{$fid}:bp");
+    }
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
+    Redis::client()->del("asin:{$aid}:fetch");
+    Redis::client()->hdel('asins', $id);
+
+    // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+    if(!isset($_GET['ajax']))
+      $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+  }
 
 	/**
 	 * Lists all models.
@@ -138,13 +150,9 @@ class Asin1Controller extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Asin('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Asin']))
-			$model->attributes=$_GET['Asin'];
-
+    $asins = array_chunk(Redis::client()->hgetall('asins'), 6, true);
 		$this->render('admin',array(
-			'model'=>$model,
+      'asins'=>$asins,
 		));
 	}
 

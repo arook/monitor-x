@@ -127,9 +127,7 @@ class AsinController extends Controller
 	 */
 	public function actionIndex()
 	{
-    $asins = Redis::client()->hkeys('asins');
-    print_r($asins);
-		//$dataProvider=new CActiveDataProvider('Asin');
+		$dataProvider=new CActiveDataProvider('Asin');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
