@@ -20,16 +20,18 @@ class ApiController extends Controller
   public function getListing($asin) {
     $aid = Redis::client()->hget('asins', $asin);
     if(!$aid)
-      return null;
+      return false;
     $fid = Redis::client()->lrange("asin:{$aid}:fetch", -1, -1);
     if(!$fid)
-      return null;
+      return false;
     $list = Redis::client()->lrange("fetch:{$fid[0]}:list", 0, -1);
     foreach($list as &$item) {
       $item = CJSON::decode($item);
       $item['seller'] = $this->getSellerName($item['sid']);
     }
-    return $list;
+
+    $fs = Redis::client()->get("asin:{$aid}:fs");
+    return array($list, $fs);
   }
 
   /**
