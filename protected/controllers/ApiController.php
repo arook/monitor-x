@@ -21,7 +21,7 @@ class ApiController extends Controller
     $aid = Redis::client()->hget('asins', $asin);
     if(!$aid)
       return false;
-    $fid = Redis::client()->lrange("asin:{$aid}:fetch", -1, -1);
+    $fid = Redis::client()->lrange("asin:{$aid}:fetch", 0, 1);
     if(!$fid)
       return false;
     $list = Redis::client()->lrange("fetch:{$fid[0]}:list", 0, -1);
