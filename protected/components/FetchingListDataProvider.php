@@ -28,7 +28,8 @@ class FetchingListDataProvider extends CDataProvider {
 
     if(($pagination=$this->getPagination())!==false) {
       $pagination->setItemCount($this->getTotalItemCount());
-      $list = Redis::client()->sort($this->keyName, array('sort'=>'desc', 'limit'=>array($pagination->getOffset(), $pagination->getLimit())));
+      //$list = Redis::client()->sort($this->keyName, array('sort'=>'desc', 'limit'=>array($pagination->getOffset(), $pagination->getLimit())));
+      $list = Redis::client()->lrange($this->keyName, $pagination->getOffset(), $pagination->getLimit());
       $return = array();
       foreach($list as $fid) {
         $fetch = array(

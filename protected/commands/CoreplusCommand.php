@@ -37,7 +37,7 @@ class CoreplusCommand extends CConsoleCommand {
     Redis::client()->set(sprintf(self::ASIN_FS, $asin_id), count($listing));
 
     $fid = Redis::client()->incr(self::FETCHING_ID);
-    Redis::client()->rpush(sprintf(self::ASIN_FETCH, $asin_id), $fid);
+    Redis::client()->lpush(sprintf(self::ASIN_FETCH, $asin_id), $fid);
     Redis::client()->set(sprintf(self::FETCHING_TIME, $fid), time());
     foreach($listing as $item) {
       if($buybox['seller'] == $item['seller'] && $buybox['price'] == ($item['sell_price'] + $item['shipping_price']) && $buybox['if_fba'] == $item['if_fba']) {
