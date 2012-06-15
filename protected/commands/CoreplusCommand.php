@@ -17,6 +17,7 @@ class CoreplusCommand extends CConsoleCommand {
   const FETCHING_LIST = 'fetch:%d:list';
   const FETCHING_SELLER = 'fetch:%d:seller';
   const FETCHING_BP = 'fetch:%d:bp';
+  const FETCHING_IFFBA = 'fetch:%d:iffba';
   const FETCHING_TIME = 'fetch:%d:time';
 
   const ASIN_FETCH = 'asin:%d:fetch';
@@ -43,6 +44,7 @@ class CoreplusCommand extends CConsoleCommand {
       if($buybox['seller'] == $item['seller'] && $buybox['price'] == ($item['sell_price'] + $item['shipping_price']) && $buybox['if_fba'] == $item['if_fba']) {
         Redis::client()->set(sprintf(self::FETCHING_SELLER, $fid), $buybox['seller']);
         Redis::client()->set(sprintf(self::FETCHING_BP, $fid), $buybox['price']);
+        Redis::client()->set(sprintf(self::FETCHING_IFFBA, $fid), $buybox['if_fba']);
         $item['if_buybox'] = 1;
       }
 

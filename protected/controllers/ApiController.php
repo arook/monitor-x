@@ -34,6 +34,19 @@ class ApiController extends Controller
     return array($list, $fs);
   }
 
+  public function getBuybox($asin) {
+    $aid = Redis::client()->hget('asins', $asin);
+    if(!$aid)
+      return false;
+    $fid = Redis::client()->lrange("asin:{$aid}:fetch", 0, 1);
+    if(!$fid)
+      return false;
+    $seller = Redis::client()->get("fetch:{$fid}:seller");
+    $price = Redis::client()->get("fetch:{$fid}:bp");
+    $if_fba = Redis::client()->get("fetch:{$fid}:iffba");
+    return array('seller'=>$seller, 'price'=>$price, 'if_fba'=>$if_fba);
+  }
+
   /**
    * @param array asins to look up
    * @return array list list
