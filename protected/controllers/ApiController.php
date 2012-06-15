@@ -34,6 +34,11 @@ class ApiController extends Controller
     return array($list, $fs);
   }
 
+  /**
+   * @param string the asin
+   * @return array list
+   * @soap
+   */
   public function getBuybox($asin) {
     $aid = Redis::client()->hget('asins', $asin);
     if(!$aid)
