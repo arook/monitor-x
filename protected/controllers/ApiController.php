@@ -30,7 +30,7 @@ class ApiController extends Controller
       $item['seller'] = $this->getSellerName($item['sid']);
       $item['if_fba'] = $item['if_fba'] ? true : false;
       //输出的price 是总价格
-      $item['price'] = $item['price'] + $item['shipping'];
+      $item['sell_price'] = (float) $item['sell_price'] + (float) $item['shipping_price'];
     }
 
     $fs = Redis::client()->get("asin:{$aid}:fs");
