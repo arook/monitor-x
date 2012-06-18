@@ -28,6 +28,7 @@ class ApiController extends Controller
     foreach($list as &$item) {
       $item = CJSON::decode($item);
       $item['seller'] = $this->getSellerName($item['sid']);
+      $item['if_fba'] = $item['if_fba'] ? true : false;
     }
 
     $fs = Redis::client()->get("asin:{$aid}:fs");
