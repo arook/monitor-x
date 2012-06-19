@@ -7,7 +7,10 @@
   'dataProvider'=>$dataProvider,
   'columns'=>array_merge(array(
     'id',
-    'time:datetime',
+    array(
+      'name'=>'time',
+      'value'=>'date("F j, g:i a")',
+    ),
 //    'bp',
 //    'bs',
   ), $columns),
