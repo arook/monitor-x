@@ -9,7 +9,7 @@
 //    'id',
     array(
       'name'=>'time',
-      'value'=>'date("F j, Y, g:i a")',
+      'value'=>'date("F j, g:i a", $data["time"])',
     ),
 //    'bp',
 //    'bs',
