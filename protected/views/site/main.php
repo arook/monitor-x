@@ -6,10 +6,10 @@
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
   'dataProvider'=>$dataProvider,
   'columns'=>array_merge(array(
-    'id',
+//    'id',
     array(
       'name'=>'time',
-      'value'=>'date("F j, g:i a")',
+      'value'=>'date("F j, Y, g:i a")',
     ),
 //    'bp',
 //    'bs',
