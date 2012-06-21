@@ -17,14 +17,13 @@ class BuyboxplusCommand extends CConsoleCommand {
   );
 
   public function run($args) {
-    $type = $args[0];
     $dt = date("Y-m-d H:i:s");
 
-    //$asins = Redis::client()->hvals('asins');
-    //foreach($asins as $aid) {
-    //}
+    $asins = Redis::client()->hvals('asins');
+    foreach($asins as $aid) {
+      AsinService::getInstance()->bbrComputeFromSource($aid);
+    }
 
-    AsinService::getInstance()->bbrComputeFromSource(108);
   }
 
 }
