@@ -35,7 +35,7 @@ class AsinService extends CComponent {
    * @return
    */
   public function bbrSummary($aid) {
-    $sids = array('A2KV19AYUKS3X0', 'A2GV4BOQ11MZEE', 'ATVPDKIKX0DER');
+    $sids = array('A2KV19AYUKS3X0', 'A2GV4BOQ11MZEE', 'A26E6OJSZ6UKD8');
     $summary = array();
     foreach($sids as $sid) {
       $summary[$sid]['1'] = $this->bbrGet("bbr:{$aid}:{$sid}:1");
