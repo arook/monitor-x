@@ -62,6 +62,19 @@ class AsinService extends CComponent {
       }
     }
 
+    if($key < $b1) {
+      $bbrs[1] = $bbrs[3];$bbrs[3]=array();
+    } elseif ($key < $b2) {
+      $bbrs[2] = $bbrs[3];$bbrs[3]=array();
+    }
+
+    foreach($bbrs as $level=>$bbr) {
+      foreach($bbr as $seller=>$num) {
+        $sum = 'b'.$level;
+        echo $level, "\t", $seller, "\t", round($num/$$sum, 4), "\n";
+      }
+    }
+
     print_r($bbrs);
     return;
     $this->bbrSet('bbr:12345678:AXXXX:1', 101);
