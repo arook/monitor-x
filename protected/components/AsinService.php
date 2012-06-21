@@ -42,7 +42,7 @@ class AsinService extends CComponent {
     $fetches = self::$_client->lrange("asin:{$aid}:fetch", 0, $b3);
     foreach($fetches as $key=>$fid) {
       $list = self::$_client->lrange("fetch:{$fid}:list", 0, -1);
-      foreach($list as $key=>$entity) {
+      foreach($list as $entity) {
         $tmp = CJSON::decode($entity);
         if($tmp['if_buybox']) {
           if(array_key_exists($tmp['sid'], $bbrs[3])) {
@@ -52,12 +52,13 @@ class AsinService extends CComponent {
           }
         }
 
-        if($key == $b1) {
-          $bbrs[1] = $bbrs[3];
-        }
-        if($key == $b2) {
-          $bbrs[2] = $bbrs[3];
-        }
+      }
+
+      if($key+1 == $b1) {
+        $bbrs[1] = $bbrs[3];
+      }
+      if($key+1 == $b2) {
+        $bbrs[2] = $bbrs[3];
       }
     }
 
