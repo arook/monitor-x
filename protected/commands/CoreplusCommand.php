@@ -35,6 +35,7 @@ class CoreplusCommand extends CConsoleCommand {
 
     $listing = $this->listing($asin);
     $buybox = $this->buybox($asin);
+
     //大于0才更新
     if(count($listing) > 0)
       Redis::client()->set(sprintf(self::ASIN_FS, $asin_id), count($listing));
@@ -65,12 +66,14 @@ class CoreplusCommand extends CConsoleCommand {
     }
 
     //remove the oldest fetching
-    $ofid = Redis::client()->rpop(sprintf(self::ASIN_FETCH, $asin_id));
-    Redis::client()->del(sprintf(self::FETCHING_TIME, $ofid));
-    Redis::client()->del(sprintf(self::FETCHING_SELLER, $ofid));
-    Redis::client()->del(sprintf(self::FETCHING_BP, $ofid));
-    Redis::client()->del(sprintf(self::FETCHING_IFFBA, $ofid));
-    Redis::client()->del(sprintf(self::FETCHING_LIST, $ofid));
+    if(Redis::client()->llen(printf(self::ASIN_FETCH, $asin_id)) > 168) {
+      $ofid = Redis::client()->rpop(sprintf(self::ASIN_FETCH, $asin_id));
+      Redis::client()->del(sprintf(self::FETCHING_TIME, $ofid));
+      Redis::client()->del(sprintf(self::FETCHING_SELLER, $ofid));
+      Redis::client()->del(sprintf(self::FETCHING_BP, $ofid));
+      Redis::client()->del(sprintf(self::FETCHING_IFFBA, $ofid));
+      Redis::client()->del(sprintf(self::FETCHING_LIST, $ofid));
+    }
 
     return;
   }
