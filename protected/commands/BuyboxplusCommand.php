@@ -20,10 +20,6 @@ class BuyboxplusCommand extends CConsoleCommand {
     $type = $args[0];
     $dt = date("Y-m-d H:i:s");
 
-    if (!in_array($type, array(1, 2, 3))) {
-      throw new CException('args must in (1, 2, 3)');
-    }
-
     //$asins = Redis::client()->hvals('asins');
     //foreach($asins as $aid) {
     //}

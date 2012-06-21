@@ -29,6 +29,23 @@ class AsinService extends CComponent {
   }
 
   /**
+   * 获取指定ASIN的bbr摘要
+   *
+   * @param int $aid
+   * @return
+   */
+  public function bbrSummary($aid) {
+    $sids = array('A2KV19AYUKS3X0', 'A2GV4BOQ11MZEE', 'ATVPDKIKX0DER');
+    $summary = array();
+    foreach($sids as $sid) {
+      $summary[$sid]['1'] = $this->bbrGet("bbr:{$aid}:{$sid}:1");
+      $summary[$sid]['2'] = $this->bbrGet("bbr:{$aid}:{$sid}:2");
+      $summary[$sid]['3'] = $this->bbrGet("bbr:{$aid}:{$sid}:3");
+    }
+    return $summary;
+  }
+
+  /**
    * 从原始数据计算给定ASIN对没一个卖家的BBR，并保存
    * 长key = bbr:{$aid}:{$sid}:{$level}
    */
@@ -71,24 +88,18 @@ class AsinService extends CComponent {
     foreach($bbrs as $level=>$bbr) {
       foreach($bbr as $seller=>$num) {
         $sum = 'b'.$level;
-        echo $level, "\t", $seller, "\t", round($num/$$sum, 4), "\n";
+        $this->bbrSet("bbr:{$aid}:{$seller}:{$level}", round($num/$$sum, 4));
       }
     }
-
-    print_r($bbrs);
-    return;
-    $this->bbrSet('bbr:12345678:AXXXX:1', 101);
-    echo $this->bbrGet('bbr:12345678:AXXXX:1');
-    return;
   }
 
   /**
    * 储存指定ASIN ID，指定SELLER ID，指定LEVEL的BBR
    *
-   * @params string $key bbr:{$aid}:{$sid}:{$level}
-   * @params int $aid
-   * @params int $sid
-   * @params int $level in 1, 2, 3
+   * @param string $key bbr:{$aid}:{$sid}:{$level}
+   * @param int $aid
+   * @param int $sid
+   * @param int $level in 1, 2, 3
    */
   public function bbrSet($key, $val) {
     list($k, $f) = $this->bbrKeyField($key);
@@ -103,7 +114,7 @@ class AsinService extends CComponent {
   /**
    * 内存优化，将bbr平均分布
    *
-   * @params string $key
+   * @param string $key
    * @return array array(key, field)
    */
   private function bbrKeyField($key) {

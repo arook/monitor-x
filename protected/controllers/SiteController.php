@@ -177,10 +177,12 @@ class SiteController extends Controller
     for($i=0;$i<Redis::client()->get('asin:'.$aid.':fs'); $i++)
       $columns[] = array('name'=>'r'.$i, 'header'=>$i+1, 'type'=>'rank');
 
+    $bbr = AsinService::getInstance()->bbrSummary($aid);
     $this->render('main', array(
       'form'=>$form,
       'dataProvider'=>$dataProvider,
       'columns'=>$columns,
+      'bbr'=>$bbr,
     ));
   }
 
