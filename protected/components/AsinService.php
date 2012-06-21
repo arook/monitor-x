@@ -56,7 +56,7 @@ class AsinService extends CComponent {
       Yii::app()->params['fetch_frequency'] * 84
     );
     $bbrs = array('1'=>array(), '2'=>array(), '3'=>array());
-    $fetches = self::$_client->lrange("asin:{$aid}:fetch", 0, $b3);
+    $fetches = self::$_client->lrange("asin:{$aid}:fetch", 0, $b3-1);
     $key = 0;
     foreach($fetches as $key=>$fid) {
       $list = self::$_client->lrange("fetch:{$fid}:list", 0, -1);
