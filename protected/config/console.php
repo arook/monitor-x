@@ -12,6 +12,7 @@ return array(
 	),
 
   // application components
+  /*
 	'components'=>array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=monitor',
@@ -21,4 +22,9 @@ return array(
 			'charset' => 'utf8',
 		),
 	),
+   */
+
+  'params'=>array(
+    'fetch_frequency' => 2,  //freq per hour
+  ),
 );
