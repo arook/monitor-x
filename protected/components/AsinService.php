@@ -90,7 +90,7 @@ class AsinService extends CComponent {
       $list = self::$_client->lrange("fetch:{$fid}:list", 0, -1);
       foreach($list as $entity) {
         $tmp = CJSON::decode($entity);
-        if(!in_array($tmp['sid'], $sellers))
+        if(!in_array($tmp['sid'], $sellers) || !$tmp['if_fba'])
           continue;
 
         //sales
