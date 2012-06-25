@@ -88,23 +88,25 @@ class AsinService extends CComponent {
     $key = 0;
     foreach($fetches as $key=>$fid) {
       $list = self::$_client->lrange("fetch:{$fid}:list", 0, -1);
-      //保证对于同一个卖家，只统计价格偏低的那个
+      //保证对于同一个卖家，sales price只统计价格偏低(排名靠前)的那个
       $counted_sellers = array();
       foreach($list as $entity) {
         $tmp = CJSON::decode($entity);
-        if(!in_array($tmp['sid'], $sellers) || in_array($tmp['sid'], $counted_sellers))
+        if(!in_array($tmp['sid'], $sellers))
           continue;
 
-        $counted_sellers[] = $tmp['sid'];
 
-        //sales
-        if(array_key_exists($tmp['sid'], $sales[3])) {
-          $sales[3][$tmp['sid']]['sum'] += $tmp['sell_price'] + $tmp['shipping_price'];
-          $sales[3][$tmp['sid']]['count'] += 1;
-        } else {
-          $sales[3][$tmp['sid']]['sum'] = $tmp['sell_price'] + $tmp['shipping_price'];
-          $sales[3][$tmp['sid']]['count'] = 1;
+        if(!in_array($tmp['sid'], $counted_sellers)) {
+          //sales
+          if(array_key_exists($tmp['sid'], $sales[3])) {
+            $sales[3][$tmp['sid']]['sum'] += $tmp['sell_price'] + $tmp['shipping_price'];
+            $sales[3][$tmp['sid']]['count'] += 1;
+          } else {
+            $sales[3][$tmp['sid']]['sum'] = $tmp['sell_price'] + $tmp['shipping_price'];
+            $sales[3][$tmp['sid']]['count'] = 1;
+          }
         }
+        $counted_sellers[] = $tmp['sid'];
 
         //bbr
         if(array_key_exists($tmp['sid'], $bbrs[3])) {
