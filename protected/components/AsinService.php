@@ -29,7 +29,7 @@ class AsinService extends CComponent {
   }
 
   public function sellers() {
-    return array('A2KV19AYUKS3X0', 'A2GV4BOQ11MZEE', 'A26E6OJSZ6UKD8');
+    return array('A2KV19AYUKS3X0', 'A2GV4BOQ11MZEE', 'A26E6OJSZ6UKD8', 'A294P4X9EWVXLJ', 'A2KUZVNQ9LP7N9', 'AU6CIPHVQTR38', 'ATJRX6NFQTSGE');
   }
 
   /**
