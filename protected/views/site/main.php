@@ -4,7 +4,7 @@
 <?php $this->renderPartial('_form', array('model'=>$form));?>
 
 <h2>BBR</h2>
-<table>
+<table class="table table-striped">
 <thead>
   <th>SELLER</th>
   <th>12</th>
