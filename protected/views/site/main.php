@@ -7,18 +7,23 @@
 <table>
 <thead>
   <th>SELLER</th>
-  <th>1</th>
-  <th>3</th>
-  <th>5</th>
+  <th>12</th>
+  <th>36</th>
+  <th>84</th>
+  <th>12</th>
+  <th>36</th>
+  <th>84</th>
 </thead>
 <?php foreach($bbr as $key=>$seller):?>
 <tr>
   <td><?php echo Utils::getAvatarBySid($key);?></td>
-  <td>
-  <?php echo $sales[$key]['1']?>
-<?php echo sprintf('%.2f%%', $seller['1'] * 100)?></td>
+  <td><?php echo sprintf('%.2f%%', $seller['1'] * 100)?></td>
   <td><?php echo sprintf('%.2f%%', $seller['2'] * 100)?></td>
   <td><?php echo sprintf('%.2f%%', $seller['3'] * 100)?></td>
+
+  <td><?php echo sprintf('%.2f', $sales[$key]['1'])?></td>
+  <td><?php echo sprintf('%.2f', $sales[$key]['2'])?></td>
+  <td><?php echo sprintf('%.2f', $sales[$key]['3'])?></td>
 </tr>
 <?php endforeach;?>
 </table>
