@@ -14,7 +14,9 @@
 <?php foreach($bbr as $key=>$seller):?>
 <tr>
   <td><?php echo Utils::getAvatarBySid($key);?></td>
-  <td><?php echo sprintf('%.2f%%', $seller['1'] * 100)?></td>
+  <td>
+  <?php echo $sales[$key]['1']?>
+<?php echo sprintf('%.2f%%', $seller['1'] * 100)?></td>
   <td><?php echo sprintf('%.2f%%', $seller['2'] * 100)?></td>
   <td><?php echo sprintf('%.2f%%', $seller['3'] * 100)?></td>
 </tr>
