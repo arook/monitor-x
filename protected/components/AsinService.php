@@ -88,10 +88,14 @@ class AsinService extends CComponent {
     $key = 0;
     foreach($fetches as $key=>$fid) {
       $list = self::$_client->lrange("fetch:{$fid}:list", 0, -1);
+      //保证对于同一个卖家，只统计价格偏低的那个
+      $counted_sellers = array();
       foreach($list as $entity) {
         $tmp = CJSON::decode($entity);
-        if(!in_array($tmp['sid'], $sellers) || !$tmp['if_fba'])
+        if(!in_array($tmp['sid'], $sellers) || in_array($tmp['sid'], $counted_sellers))
           continue;
+
+        $counted_sellers[] = $tmp['sid'];
 
         //sales
         if(array_key_exists($tmp['sid'], $sales[3])) {
