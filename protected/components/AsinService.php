@@ -120,8 +120,8 @@ class AsinService extends CComponent {
    */
   private function bbrKeyField($key) {
     list(,$aid,$sid,$level) = explode(':', $key);
-    $k = 'bbr:' . substr($aid, 0, -2);
-    $f = substr($aid, -2) . ':' .$sid . ':' . $level;
+    $k = 'bbr:' . substr($aid, 0, 2);
+    $f = substr($aid, 2) . ':' .$sid . ':' . $level;
     return array($k, $f);
   }
 
