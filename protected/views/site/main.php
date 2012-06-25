@@ -3,7 +3,7 @@
 
 <?php $this->renderPartial('_form', array('model'=>$form));?>
 
-<h2>BBR</h2>
+<h2>BBR && Sales</h2>
 <table class="table table-striped">
 <thead>
   <th>SELLER</th>
