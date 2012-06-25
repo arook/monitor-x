@@ -66,7 +66,7 @@ class CoreplusCommand extends CConsoleCommand {
     }
 
     //remove the oldest fetching
-    $count = Redis::client()->llen(printf(self::ASIN_FETCH, $asin_id)) - 168;
+    $count = Redis::client()->llen(sprintf(self::ASIN_FETCH, $asin_id)) - 168;
     while($count > 0) {
       $ofid = Redis::client()->rpop(sprintf(self::ASIN_FETCH, $asin_id));
       Redis::client()->del(sprintf(self::FETCHING_TIME, $ofid));
