@@ -164,6 +164,34 @@ class SiteController extends Controller
     ));
 	}
 
+  public function actionDefault()
+  {
+    $form = new AsinForm;
+    $model = new MFetching('search');
+    $bbr = $sales = $columns = array();
+
+    if (isset($_REQUEST['AsinForm']))
+      $form->attributes = $_REQUEST['AsinForm'];
+
+    if ($form->asin)
+      $asin = MAsin::model()->findByAttributes(array('asin' => $form->asin));
+    if (isset($asin)) {
+      $model->getDbCriteria()->addCond('a.$id', '==', $asin->_id)->sort('t', -1);
+      foreach(range(0, $asin->fs - 1) as $k) {
+        $columns[] = array('header' =>$k + 1, 'name'=>"l.$k", 'type'=>'rank');
+      }
+    }
+
+
+    $this->render('default', array(
+      'form'=>$form,
+      'model'=>$model,
+      'columns'=>$columns,
+      'bbr'=>$bbr,
+      'sales'=>$sales,
+    ));
+  }
+
   public function actionMain()
   {
     $form = new AsinForm;
@@ -191,6 +219,12 @@ class SiteController extends Controller
   public function actionAsinList()
   {
     $list = array();
+    foreach (MAsin::model()->findAllByAttributes(array('asin' => new MongoRegex('/.*' . $_GET['term'] . '.*/i'))) as $asin) {
+      $list[] = $asin->asin;
+    }
+    echo CJSON::encode($list);
+    Yii::app()->end();
+
     foreach(Redis::client()->hkeys('asins') as $asin) {
       if(stristr($asin, $_GET['term']))
         $list[] = $asin;

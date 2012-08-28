@@ -8,7 +8,8 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Monitor',
-  'defaultController'=>'site/main',
+  'defaultController'=>'site/default',
+//  'theme'=>'shadow_dancer',
 
 	// preloading 'log' component
 	'preload'=>array('log', 'bootstrap'),
@@ -17,6 +18,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+    'ext.YiiMongoDbSuite.*',
 	),
 
 	'modules'=>array(
@@ -26,7 +28,7 @@ return array(
 			'password'=>'1',
 		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-      'generatorPaths'=>array('bootstrap.gii'),
+      'generatorPaths'=>array('bootstrap.gii', 'ext.YiiMongoDbSuite.gii'),
 		),
 	),
 
@@ -64,6 +66,14 @@ return array(
 			'password' => 'root',
 			'charset' => 'utf8',
 		),
+    'mongodb'=>array(
+      'class'=> 'EMongoDB',
+      'connectionString' => 'mongodb://localhost',
+      'dbName'           => 'monitor',
+      'fsyncFlag'        => false,
+      'safeFlag'         => false,
+      'useCursor'        => false,
+    ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',

@@ -11,6 +11,4 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('retry')); ?>:</b>
 	<?php echo CHtml::encode($data->retry); ?>
 	<br />
-
-
 </div>

@@ -2,9 +2,13 @@
 
 class TCommand extends CConsoleCommand {
   public function run() {
-    $asins = Asin::model()->findAll();
+    $asins = Redis::client()->hkeys('asins');
+    $m = new Mongo();
+    $db = $m->monitor;
+    $c = $db->asins;
     foreach($asins as $asin) {
-      Redis::client()->hset('asins', $asin->asin, $asin->id);
+      $obj = array('v'=>$asin);
+      $c->insert($obj);
     }
   }
 }
