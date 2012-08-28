@@ -199,7 +199,7 @@ class SiteController extends Controller
     $asin = MAsin::model()->findByPK(new MongoId($_GET['id']));
     $attr = ($_GET['type'] == 'listing') ? '_sl' : '_sb';
     if($asin->$attr)
-      echo $asin->attr;
+      echo $asin->$attr;
     else
       echo 'nothing';
   }
