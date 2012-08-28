@@ -26,7 +26,7 @@ class MongoCoreCommand extends CConsoleCommand {
       $asin->_x = false;
       $asin->_r = $asin->_r +1;
       $asin->_e = $e->getMessage();
-      $asin->_sl = $this->_content_listing;
+      $asin->_sl = new MongoBinData($this->_content_listing);
       if ($asin->_r < 3)
         $asin->next = new MongoDate();
       $asin->save();
@@ -39,7 +39,7 @@ class MongoCoreCommand extends CConsoleCommand {
       $asin->_x = false;
       $asin->_r = $asin->_r +1;
       $asin->_e = $e->getMessage();
-      $asin->_sb = $this->_content_buybox;
+      $asin->_sb = new MongoBinData($this->_content_buybox);
       if ($asin->_r < 3)
         $asin->next = new MongoDate();
       $asin->save();
