@@ -168,6 +168,7 @@ class SiteController extends Controller
   {
     $form = new AsinForm;
     $model = new MFetching('search');
+    $asin = new MAsin;
     $bbr = $sales = $columns = array();
 
     if (isset($_REQUEST['AsinForm']))
