@@ -196,11 +196,12 @@ class SiteController extends Controller
 
   public function actionContent()
   {
-    $asin = MAsin::model()->find(array('_id'=>$_GET['id']));
-    var_dump($asin);
+    $asin = MAsin::model()->findByPK(new MongoId($_GET['id']));
     $attr = ($_GET['type'] == 'listing') ? '_sl' : '_sb';
-    var_dump($asin->$attr);
-    echo 'nothing';
+    if($asin->$attr)
+      echo $asin->attr;
+    else
+      echo 'nothing';
   }
 
   public function actionMain()
