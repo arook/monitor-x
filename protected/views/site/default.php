@@ -21,9 +21,9 @@
 </tr>
 <tr>
   <th>Listing</th>
-  <td><?php echo $asin->_sl->bin?></td>
+  <td><a href="?r=site/content&type=listing&id=<?php echo $asin->_id?>" target="_blank">Listing Content</a></td>
   <th>Buybox</th>
-  <td><?php echo $asin->_sb->bin?></td>
+  <td><a href="?r=site/content&type=buybox&id=<?php echo $asin->_id?>" target="_blank">Buybox Content</a></td>
 </tr>
 <?php endif;?>
 </tbody>

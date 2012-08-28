@@ -194,6 +194,16 @@ class SiteController extends Controller
     ));
   }
 
+  public function actionContent()
+  {
+    $asin = MAsin::model()->find(array('_id'=>$_GET['id']));
+    $attr = $_GET['type'] == 'listing' ? '_sl' : '_sb';
+    if($asin->$attr)
+      echo $asin->$asin->bin;
+
+    echo 'nothing';
+  }
+
   public function actionMain()
   {
     $form = new AsinForm;
