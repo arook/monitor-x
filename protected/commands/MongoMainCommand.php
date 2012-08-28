@@ -13,8 +13,8 @@ class MongoMainCommand extends CConsoleCommand {
   //允许最大的线程数
   const MAX_THREAD = 5;
 
-  //抓取周期,单位是ms
-  const T = 1000;
+  //抓取周期,单位是micro_seconds
+  const T = 1000000;
 
   public function run($args) {
     $yiic = dirname(__FILE__) . '/../yiic';
