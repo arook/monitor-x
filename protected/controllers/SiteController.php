@@ -197,12 +197,9 @@ class SiteController extends Controller
   public function actionContent()
   {
     $asin = MAsin::model()->find(array('_id'=>$_GET['id']));
-    $attr = $_GET['type'] == 'listing' ? '_sl' : '_sb';
-    var_dump(is_null($asin->$attr));
-    if(!is_null($asin->$attr))
-      echo $asin->$attr;
-    else
-      echo 'nothing';
+    $attr = ($_GET['type'] == 'listing') ? '_sl' : '_sb';
+    echo $asin->$attr;
+    echo 'nothing';
   }
 
   public function actionMain()
