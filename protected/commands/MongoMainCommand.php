@@ -10,7 +10,11 @@
  */
 class MongoMainCommand extends CConsoleCommand {
 
-  const MAX_THREAD = 50;
+  //允许最大的线程数
+  const MAX_THREAD = 5;
+
+  //抓取周期,单位是ms
+  const T = 1000;
 
   public function run($args) {
     $yiic = dirname(__FILE__) . '/../yiic';
@@ -60,7 +64,7 @@ class MongoMainCommand extends CConsoleCommand {
         $asin->save();
 
         $handles[] = proc_open(sprintf('%s mongocore %s', $yiic, $asin->asin), $desc, $pipes[], null, $_ENV);
-        sleep(1);
+        usleep(self::T);
       }
     }
   }
@@ -72,7 +76,7 @@ class MongoMainCommand extends CConsoleCommand {
    */
   private function get_asin_list($count) {
     $criteria = new EMongoCriteria();
-    $criteria->addCond('next', '<=', new MongoDate(time()));
+    $criteria->addCond('next', '<=', new MongoDate());
     $criteria->limit($count);
     $criteria->sort('next', 1);
     $criteria->sort('level', 1);
