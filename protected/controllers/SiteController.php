@@ -189,6 +189,7 @@ class SiteController extends Controller
       'columns'=>$columns,
       'bbr'=>$bbr,
       'sales'=>$sales,
+      'asin'=>$asin,
     ));
   }
 

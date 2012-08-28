@@ -4,6 +4,31 @@
 <?php $this->renderPartial('_form', array('model'=>$form));?>
 
 <?php if (isset($_GET['AsinForm']) && isset($_GET['AsinForm']['asin'])):?>
+<table class="table table-striped">
+<tbody>
+<tr>
+  <th>Last Fetch</th>
+  <td><?php echo date('Y-m-d H:i:s', $asin->dt->sec)?></td>
+  <th>Next Fetch</th>
+  <td><?php echo date('Y-m-d H:i:s', $asin->next->sec)?></td>
+</tr>
+<?php if($asin->_e):?>
+<tr>
+  <th>Retry</th>
+  <td><?php echo $asin->_r?></td>
+  <th>Error</th>
+  <td><?php echo $asin->_e?></td>
+</tr>
+<tr>
+  <th>Listing</th>
+  <td><?php echo $asin->_sl->bin?></td>
+  <th>Buybox</th>
+  <td><?php echo $asin->_sb->bin?></td>
+</tr>
+<?php endif;?>
+</tbody>
+</table>
+
 <h2>BBR && Sales</h2>
 <table class="table table-striped">
 <thead>
