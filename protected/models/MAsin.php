@@ -34,7 +34,7 @@ class MAsin extends EMongoDocument {
     return array(
       array('asin', 'required'),
       array('fs, level', 'numerical', 'integerOnly'=>true),
-      array('asin, level', 'safe', 'on'=>'search'),
+      array('asin, next, level', 'safe', 'on'=>'search'),
     );
   }
 

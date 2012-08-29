@@ -18,12 +18,12 @@ Yii::app()->clientScript->registerScript('search', "
   });
 
   $('#btn_now').click(function(){
-    $('#searchForm #next').val('<' + new Date().getTime());
+    $('#searchForm #next').val('<' +  Math.round(new Date().getTime()/1000));
     $('#searchForm').submit();
   });
 
   $('#btn_next').click(function(){
-    $('#searchForm #next').val('<' + (3600 + new Date().getTime()));
+    $('#searchForm #next').val('<' + (3600 + Math.round(new Date().getTime()/1000)));
     $('#searchForm').submit();
   });
 ");
@@ -36,7 +36,7 @@ Yii::app()->clientScript->registerScript('search', "
   'type'=>'search',
   'htmlOptions'=>array('class'=>'well'),
 ))?>
-<input type="hidden" name="next" id="next" />
+<input type="hidden" name="MAsin[next]" id="next" />
 <?php echo $form->textFieldRow($model,
   'asin',
   array(

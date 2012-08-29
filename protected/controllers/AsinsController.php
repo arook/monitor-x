@@ -172,6 +172,11 @@ class AsinsController extends Controller
 			$model->setAttributes($_GET['MAsin']);
       if($model->level)
         $model->level = new MongoInt32($model->level);
+      if($model->next)
+        if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=|!=|==))?(.*)$/',$model->next,$matches)) {
+          $op = $matches[1]; $value = $matches[2];
+          $model->next = array(EMongoCriteria::$operators[$op] => new MongoDate($value));
+        }
     }
 
 		$this->render('admin', array(
