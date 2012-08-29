@@ -78,8 +78,9 @@ class MongoMainCommand extends CConsoleCommand {
     $criteria = new EMongoCriteria();
     $criteria->addCond('next', '<=', new MongoDate());
     $criteria->limit($count);
-    $criteria->sort('next', 1);
+    //频率高的总是放到前面跑
     $criteria->sort('level', 1);
+    $criteria->sort('next', 1);
     return MAsin::model()->findAll($criteria);
   }
 

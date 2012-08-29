@@ -6,7 +6,7 @@ class AsinsController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+//	public $layout='//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -93,6 +93,7 @@ class AsinsController extends Controller
 		if(isset($_POST['MAsin']))
 		{
 			$model->attributes=$_POST['MAsin'];
+      $model->level = intval($model->level);
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->_id));
 		}
@@ -145,16 +146,20 @@ class AsinsController extends Controller
       $content = file_get_contents($_FILES['MAsin']['tmp_name']['ASIN']);
       $rows = explode("\n", $content);
       $nupladed = count($rows);
+      $start_time = time();
+      $step = ceil((3600 * 24)) / $nupladed;//向后24小时进行平均分配
       $nadded = $nupdated = 0;
       foreach ($rows as $row) {
         list($asin, $intval) = array_map('trim', explode(',', $row));
         if(!$m = MAsin::model()->findByAttributes(array('asin'=>$asin))) {
           $m=new MAsin;
           $nadded ++;
+          if($intval >= 3600)
+            $m->next = new MongoDate($start_time = $start_time + $step);
         } else
           $nupdated++;
         $m->asin = $asin;
-        $m->level = $intval;
+        $m->level = intval($intval);
         $m->save();
       }
       Yii::app()->user->setFlash('success', "上传成功!共上传{$nupladed},其中新增{$nadded},更新{$nupdated}.");
@@ -163,8 +168,11 @@ class AsinsController extends Controller
 		$model = new MAsin('search');
 		$model->unsetAttributes();
 
-		if(isset($_GET['MAsin']))
+		if(isset($_GET['MAsin'])) {
 			$model->setAttributes($_GET['MAsin']);
+      if($model->level)
+        $model->level = new MongoInt32($model->level);
+    }
 
 		$this->render('admin', array(
 			'model'=>$model
@@ -204,4 +212,16 @@ class AsinsController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+  private function uniform_distribute() {
+    $criteria = new EMongoCriteria();
+    $criteria->addCond('level', '>=', 3600);
+    $criteria->sort('next', 1);
+    $criteria->sort('level', 1);
+
+    MAsin::model()->setUseCursor(true);
+    $todo_asins = MAsin::model()->findAll($criteria);
+    echo $todo_asins->count();
+  }
+
 }

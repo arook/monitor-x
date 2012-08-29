@@ -9,26 +9,74 @@ $this->menu=array(
 	array('label'=>'Create Asin','url'=>array('create')),
 );
 
+Yii::app()->clientScript->registerScript('search', "
+  $('#searchForm').submit(function(){
+    $.fn.yiiGridView.update('asin-grid', {
+      data: $(this).serialize()
+    });
+    return false;
+  });
+
+  $('#btn_now').click(function(){
+    $('#searchForm #next').val('<' + new Date().getTime());
+    $('#searchForm').submit();
+  });
+
+  $('#btn_next').click(function(){
+    $('#searchForm #next').val('<' + (3600 + new Date().getTime()));
+    $('#searchForm').submit();
+  });
+");
 ?>
 
 <h1>Manage Asins</h1>
-<?php $this->widget('bootstrap.widgets.TbButton', array(
-  'label'=>'上传ASIN',
-  'htmlOptions'=>array(
-    'data-toggle'=>'modal',
-    'data-target'=>'#uploadModal',
-  ),
+
+<?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+  'id'=>'searchForm',
+  'type'=>'search',
+  'htmlOptions'=>array('class'=>'well'),
 ))?>
+<input type="hidden" name="next" id="next" />
+<?php echo $form->textFieldRow($model,
+  'asin',
+  array(
+    'class'=>'input-medium',
+    'prepend'=>'<i class="icon-search"></i>'
+  )
+); ?>
+
+<?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
+  'buttons'=>array(
+    array('label'=>'当前运行中', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_now')),
+    array('label'=>'未来一小时', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_next')),
+    array('label'=>'上传ASIN', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#uploadModal')),
+  ),
+)) ?>
+
+<?php $this->endWidget();?>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
   'id'=>'asin-grid',
+  'type'=>'striped bordered condensed',
   'dataProvider'=>new EMongoDocumentDataProvider($model->search()),
-  'filter'=>$model,
+  //'filter'=>$model,
   'columns'=>array(
 		'asin',
-    'fs',
+    array(
+      'name'=>'Delay',
+      'value'=>'time() - $data->next->sec',
+    ),
+    array(
+      'name'=>'Last Time',
+      'value'=>'$data->dt ? date("F j, g:i a", $data->dt->sec) : ""',
+    ),
+    array(
+      'name'=>'Next Time',
+      'value'=>'$data->next ? date("F j, g:i a", $data->next->sec) : ""',
+    ),
 		'level',
-		array(
+    'fs',
+    array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 		),
 	),

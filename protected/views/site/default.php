@@ -8,9 +8,9 @@
 <tbody>
 <tr>
   <th>Last Fetch</th>
-  <td><?php echo date('Y-m-d H:i:s', $asin->dt->sec)?></td>
+  <td><?php echo date('F j, g:i a', $asin->dt->sec)?></td>
   <th>Next Fetch</th>
-  <td><?php echo date('Y-m-d H:i:s', $asin->next->sec)?></td>
+  <td><?php echo date('F j, g:i a', $asin->next->sec)?></td>
 </tr>
 <?php if($asin->_e):?>
 <tr>
