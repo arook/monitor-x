@@ -18,12 +18,12 @@ Yii::app()->clientScript->registerScript('search', "
   });
 
   $('#btn_now').click(function(){
-    $('#searchForm #next').val('<' +  Math.round(new Date().getTime()/1000));
+    $('#searchForm #next').val('now');
     $('#searchForm').submit();
   });
 
   $('#btn_next').click(function(){
-    $('#searchForm #next').val('<' + (3600 + Math.round(new Date().getTime()/1000)));
+    $('#searchForm #next').val('next');
     $('#searchForm').submit();
   });
 ");

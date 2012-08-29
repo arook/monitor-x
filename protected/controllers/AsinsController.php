@@ -173,10 +173,10 @@ class AsinsController extends Controller
       if($model->level)
         $model->level = new MongoInt32($model->level);
       if($model->next)
-        if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=|!=|==))?(.*)$/',$model->next,$matches)) {
-          $op = $matches[1]; $value = $matches[2];
-          $model->next = array(EMongoCriteria::$operators[$op] => new MongoDate($value));
-        }
+        if($model->next == 'now')
+          $model->next = array('$lt' => new MongoDate());
+        elseif ($model->next == 'next')
+          $model->next = array('$lt' => new MongoDate(time() + 3600));
     }
 
 		$this->render('admin', array(
