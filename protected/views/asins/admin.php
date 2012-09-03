@@ -51,10 +51,11 @@ Yii::app()->clientScript->registerScript('search', "
 ); ?>
 
 <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
+  'toggle'=>'radio',
   'buttons'=>array(
     array('label'=>'当前运行中', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_now')),
     array('label'=>'未来一小时', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_next')),
-    array('label'=>'已停止', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_issues')),
+    array('label'=>'问题帖子', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_issues')),
     array('label'=>'负载分布', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
     array('label'=>'上传ASIN', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#uploadModal')),
   ),
@@ -85,6 +86,14 @@ Yii::app()->clientScript->registerScript('search', "
     'fs',
     array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
+      'buttons'=>array(
+        'view'=>array(
+          'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
+          'options'=>array(
+            'target'=>'_blank',
+          ),
+        ),
+      ),
 		),
 	),
 )); ?>
