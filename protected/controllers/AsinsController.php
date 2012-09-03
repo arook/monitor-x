@@ -193,8 +193,8 @@ class AsinsController extends Controller
   public function actionRegen()
   {
     $this->uniform_distribute();
-//    Yii::app()->user->setFlash('success', "重新分配成功！");
-//    $this->redirect($this->createUrl('admin'));
+    Yii::app()->user->setFlash('success', "重新分配成功！");
+    $this->redirect($this->createUrl('admin'));
   }
 
   public function actionSpark() {
@@ -277,7 +277,7 @@ class AsinsController extends Controller
     $t = time();
     foreach($todo_asins as $asin) {
       $asin->next = new MongoDate($t = $t + $step);
-      echo $asin->next->sec, "<br/>";
+//      echo $asin->next->sec, "<br/>";
       $asin->save();
     }
   }
