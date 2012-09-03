@@ -203,12 +203,17 @@ class AsinsController extends Controller
     Yii::import('application.components.sparkline.Sparkline_Bar');
     $sparkline = new Sparkline_Bar();
     $sparkline->SetDebugLevel(DEBUG_NONE);
-    $sparkline->SetBarWidth(2);
+    $sparkline->SetBarWidth(1);
     $sparkline->SetBarSpacing(1);
 //    $sparkline->SetBarColorDefault('blue');
 
     $db = MAsin::model()->getDb();
-    $map = new MongoCode("function() {if(this.next){emit(Math.ceil(this.next/(1000*60/2*{$range})), 1);}}");
+    $map = new MongoCode("function() {if(this.next){" .
+      "var t = 0;" .
+      "while(t < 3600 * {$range}) {" .
+        "emit(Math.ceil((t + this.next/1000)/(20*{$range})), 1);" .
+        "t = t + this.level;" .
+      "}}}");
     $reduce = new MongoCode("function(k, vals) {" .
       "var sum = 0;" .
       "for (var i in vals) {" .
