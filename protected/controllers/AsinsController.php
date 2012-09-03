@@ -190,6 +190,13 @@ class AsinsController extends Controller
 		));
 	}
 
+  public function actionRegen()
+  {
+    $this->uniform_distribute();
+//    Yii::app()->user->setFlash('success', "重新分配成功！");
+//    $this->redirect($this->createUrl('admin'));
+  }
+
   public function actionSpark() {
     //负载
     Yii::import('application.components.sparkline.Sparkline_Bar');
@@ -200,7 +207,7 @@ class AsinsController extends Controller
 //    $sparkline->SetBarColorDefault('blue');
 
     $db = MAsin::model()->getDb();
-    $map = new MongoCode("function() {if(this.dt) emit(this.dt.getHours()*60 + this.dt.getMinutes(), 1);}");
+    $map = new MongoCode("function() {if(this.next){emit(Math.ceil(this.next/60000), 1);}}");
     $reduce = new MongoCode("function(k, vals) {" .
       "var sum = 0;" .
       "for (var i in vals) {" .
@@ -210,12 +217,13 @@ class AsinsController extends Controller
       "}");
     $res = $db->command(array('mapreduce'=>'asin', 'map'=>$map, 'reduce'=>$reduce, 'query'=>array('next'=>array('$gt'=>new MongoDate())), 'out'=>'example'));
     $args = $db->selectCollection($res['result'])->find();
+//    var_dump($res);
 
     foreach($args as $k=>$v) {
       $sparkline->SetData($k, $v['value']);
     }
 
-    $sparkline->Render(10);
+    $sparkline->Render(100);
     $sparkline->Output();
   }
 
@@ -259,9 +267,19 @@ class AsinsController extends Controller
     $criteria->sort('next', 1);
     $criteria->sort('level', 1);
 
+    $total = 3600 * 24;
+
     MAsin::model()->setUseCursor(true);
     $todo_asins = MAsin::model()->findAll($criteria);
-    echo $todo_asins->count();
+    $nums = $todo_asins->count();
+    $step = round($total/$nums);
+
+    $t = time();
+    foreach($todo_asins as $asin) {
+      $asin->next = new MongoDate($t = $t + $step);
+      echo $asin->next->sec, "<br/>";
+      $asin->save();
+    }
   }
 
 }

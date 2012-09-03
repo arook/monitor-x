@@ -146,5 +146,16 @@ Yii::app()->clientScript->registerScript('search', "
 </div>
 
 <div class="modal-footer">
+<?php $this->widget('bootstrap.widgets.TbButton', array(
+  'type'=>'primary',
+  'label'=>'重新分配',
+  'url'=>$this->createUrl('regen'),
+  'htmlOptions'=>array('name'=>'regen'),
+)); ?>
+<?php $this->widget('bootstrap.widgets.TbButton', array(
+  'label'=>'Close',
+  'url'=>'#',
+  'htmlOptions'=>array('data-dismiss'=>'modal'),
+    )); ?>
 </div>
 <?php $this->endWidget(); ?>
