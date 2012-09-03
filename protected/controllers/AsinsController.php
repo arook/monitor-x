@@ -198,16 +198,17 @@ class AsinsController extends Controller
   }
 
   public function actionSpark() {
+    $range = isset($_GET['range']) ? intval($_GET['range']) : 6;
     //负载
     Yii::import('application.components.sparkline.Sparkline_Bar');
     $sparkline = new Sparkline_Bar();
     $sparkline->SetDebugLevel(DEBUG_NONE);
-    $sparkline->SetBarWidth(1);
-    $sparkline->SetBarSpacing(0);
+    $sparkline->SetBarWidth(2);
+    $sparkline->SetBarSpacing(1);
 //    $sparkline->SetBarColorDefault('blue');
 
     $db = MAsin::model()->getDb();
-    $map = new MongoCode("function() {if(this.next){emit(Math.ceil(this.next/60000), 1);}}");
+    $map = new MongoCode("function() {if(this.next){emit(Math.ceil(this.next/(1000*60/2*{$range})), 1);}}");
     $reduce = new MongoCode("function(k, vals) {" .
       "var sum = 0;" .
       "for (var i in vals) {" .
@@ -215,15 +216,16 @@ class AsinsController extends Controller
       "}" .
       "return sum;" .
       "}");
-    $res = $db->command(array('mapreduce'=>'asin', 'map'=>$map, 'reduce'=>$reduce, 'query'=>array('next'=>array('$gt'=>new MongoDate())), 'out'=>'example'));
+    $res = $db->command(array('mapreduce'=>'asin', 'map'=>$map, 'reduce'=>$reduce, 'query'=>array('next'=>array('$gt'=>new MongoDate(), '$lt'=>new MongoDate(time() + 3600 * $range))), 'out'=>'example'));
     $args = $db->selectCollection($res['result'])->find();
 //    var_dump($res);
 
     foreach($args as $k=>$v) {
       $sparkline->SetData($k, $v['value']);
+//      echo $v['value'], "<br />";
     }
 
-    $sparkline->Render(100);
+    $sparkline->Render(30);
     $sparkline->Output();
   }
 

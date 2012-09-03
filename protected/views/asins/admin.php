@@ -142,7 +142,20 @@ Yii::app()->clientScript->registerScript('search', "
 </div>
 
 <div class="modal-body">
-<p align="center"><img src="<?php echo $this->createUrl('spark')?>" /></p>
+<?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
+  'toggle'=>'radio',
+  'buttons'=>array(
+    array('label' => '1H', 'url'=>'javascript:($("#charts").attr("src", "' . $this->createUrl('spark', array('range'=>1)) . '"));'),
+    array('label' => '3H', 'url'=>'javascript:($("#charts").attr("src", "' . $this->createUrl('spark', array('range'=>3)) . '"));'),
+    array('label' => '6H', 'url'=>'javascript:($("#charts").attr("src", "' . $this->createUrl('spark', array('range'=>6)) . '"));'),
+    array('label' => '12H', 'url'=>'javascript:($("#charts").attr("src", "' . $this->createUrl('spark', array('range'=>12)) . '"));'),
+    array('label' => '24H', 'url'=>'javascript:($("#charts").attr("src", "' . $this->createUrl('spark', array('range'=>24)) . '"));'),
+  ),
+  'htmlOptions'=>array(
+    'align'=>'center',
+  ),
+))?>
+<p align="center"><img id='charts' src="<?php echo $this->createUrl('spark')?>" /></p>
 </div>
 
 <div class="modal-footer">
