@@ -180,7 +180,7 @@ class AsinsController extends Controller
         elseif ($model->next == 'issues') {
           $model->next = null;
           $model->_r = array('$gte' => 3);
-//          $model->getDbCriteria()->sort('_r', -1);
+          $model->getDbCriteria()->sort('_r', -1);
         }
     }
 
