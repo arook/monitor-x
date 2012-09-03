@@ -26,6 +26,11 @@ Yii::app()->clientScript->registerScript('search', "
     $('#searchForm #next').val('next');
     $('#searchForm').submit();
   });
+
+  $('#btn_issues').click(function(){
+    $('#searchForm #next').val('issues');
+    $('#searchForm').submit();
+  });
 ");
 ?>
 
@@ -49,6 +54,8 @@ Yii::app()->clientScript->registerScript('search', "
   'buttons'=>array(
     array('label'=>'当前运行中', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_now')),
     array('label'=>'未来一小时', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_next')),
+    array('label'=>'已停止', 'url'=>'', 'htmlOptions'=>array('id'=>'btn_issues')),
+    array('label'=>'负载分布', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
     array('label'=>'上传ASIN', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#uploadModal')),
   ),
 )) ?>
@@ -116,4 +123,19 @@ Yii::app()->clientScript->registerScript('search', "
 </div>
 
 <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
+
+<!-- status -->
+<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'statusModal'));?>
+<div class="modal-header">
+<a class="close" data-dismiss="modal">&times;</a>
+<h4>负载分布图</h4>
+</div>
+
+<div class="modal-body">
+<p align="center"><img src="<?php echo $this->createUrl('spark')?>" /></p>
+</div>
+
+<div class="modal-footer">
+</div>
 <?php $this->endWidget(); ?>

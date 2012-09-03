@@ -14,7 +14,7 @@ class AsinsController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+//			'accessControl', // perform access control for CRUD operations
 		);
 	}
 
@@ -177,12 +177,44 @@ class AsinsController extends Controller
           $model->next = array('$lt' => new MongoDate());
         elseif ($model->next == 'next')
           $model->next = array('$lt' => new MongoDate(time() + 3600));
+        elseif ($model->next == 'issues')
+          $model->next = array('$gt' => new MongoDate(time() + 3600 * 240));
     }
+
 
 		$this->render('admin', array(
 			'model'=>$model
 		));
 	}
+
+  public function actionSpark() {
+    //负载
+    Yii::import('application.components.sparkline.Sparkline_Bar');
+    $sparkline = new Sparkline_Bar();
+    $sparkline->SetDebugLevel(DEBUG_NONE);
+    $sparkline->SetBarWidth(1);
+    $sparkline->SetBarSpacing(0);
+//    $sparkline->SetBarColorDefault('blue');
+
+    $db = MAsin::model()->getDb();
+    $map = new MongoCode("function() {if(this.dt) emit(this.dt.getHours()*60 + this.dt.getMinutes(), 1);}");
+    $reduce = new MongoCode("function(k, vals) {" .
+      "var sum = 0;" .
+      "for (var i in vals) {" .
+      "sum += vals[i];" .
+      "}" .
+      "return sum;" .
+      "}");
+    $res = $db->command(array('mapreduce'=>'asin', 'map'=>$map, 'reduce'=>$reduce, 'out'=>'example'));
+    $args = $db->selectCollection($res['result'])->find();
+
+    foreach($args as $k=>$v) {
+      $sparkline->SetData($k, $v['value']);
+    }
+
+    $sparkline->Render(10);
+    $sparkline->Output();
+  }
 
   public function actionSamplefile()
   {
