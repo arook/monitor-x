@@ -18,11 +18,9 @@ class ApiController extends Controller
    * @soap
    */
   public function getListing($asin) {
-    //$aid = Redis::client()->hget('asins', $asin);
     $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
     if(!$masin)
       return false;
-    //$fid = Redis::client()->lrange("asin:{$aid}:fetch", 0, 1);
     $fetching = MFetching::model()->findByAttributes(array('a.$id'=>$masin->_id));
     if(!$fetching)
       return false;
@@ -30,25 +28,18 @@ class ApiController extends Controller
     foreach($fetching->l as $row) {
       $seller = MFetching::model()->getCollection()->getDbRef($row->s);
       $list[] = array(
+        'rank' => $row->r,
         'seller' => $seller['name'],
         'if_fba' => $row->f,
         'sell_price' => $row->p,
       );
     }
-    /*
-    $list = Redis::client()->lrange("fetch:{$fid[0]}:list", 0, -1);
-    foreach($list as &$item) {
-      $item = CJSON::decode($item);
-      $item['seller'] = $this->getSellerName($item['sid']);
-      $item['if_fba'] = $item['if_fba'] ? true : false;
-      //输出的price 是总价格
-      $item['sell_price'] = (float) $item['sell_price'] + (float) $item['shipping_price'];
-    }
-     */
 
-    //$fs = Redis::client()->get("asin:{$aid}:fs");
-    $fs = $masin->fs;
-    return array($list, $fs);
+    return array(
+      'list' => $list,
+      'fs' => $masin->fs,
+      'br' => $fetching->br,
+    );
   }
 
   /**
@@ -57,8 +48,8 @@ class ApiController extends Controller
    * @soap
    */
   public function getBuybox($asin) {
-    $aid = Redis::client()->hget('asins', $asin);
-    if(!$aid)
+    $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
+    if(!$masin)
       return false;
     $fid = Redis::client()->lrange("asin:{$aid}:fetch", 0, 1);
     if(!$fid)
