@@ -28,8 +28,9 @@ class ApiController extends Controller
       return false;
     $list = array();
     foreach($fetching->l as $row) {
+      $seller = MFetching::model()->getCollection()->getDbRef($row->s),
       $list[] = array(
-        'seller' => MFetching::model()->getCollection()->getDbRef($row->s)->name,
+        'seller' => $seller['name'],
         'if_fba' => $row->f,
         'sell_price' => $row->p,
       );
