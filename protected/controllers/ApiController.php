@@ -19,11 +19,11 @@ class ApiController extends Controller
    */
   public function getListing($asin) {
     //$aid = Redis::client()->hget('asins', $asin);
-    $masin = MAsin::model()->findByAttribute(array('asin'=>$asin));
+    $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
     if(!$masin)
       return false;
     //$fid = Redis::client()->lrange("asin:{$aid}:fetch", 0, 1);
-    $fetching = MFetching::model()->findByAttribute(array('a.$id'=>$masin->_id));
+    $fetching = MFetching::model()->findByAttributes(array('a.$id'=>$masin->_id));
     if(!$fetching)
       return false;
     $list = array();
