@@ -52,4 +52,13 @@ class MFetching extends EMongoDocument {
     );
   }
 
+  public function scopes() {
+    return array(
+      'latest' => array(
+        'order' => 't DESC',
+        'limit' => 1,
+      ),
+    );
+  }
+
 }
