@@ -21,7 +21,7 @@ class ApiController extends Controller
     $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
     if(!$masin)
       return false;
-    $fetching = MFetching::model()->findAllByAttributes(array('a.$id'=>$masin->_id));
+    $fetching = MFetching::model()->latest()->findAllByAttributes(array('a.$id'=>$masin->_id));
     if(!$fetching)
       return false;
     $fetching = $fetching[0];
