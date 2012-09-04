@@ -54,8 +54,8 @@ class MFetching extends EMongoDocument {
 
   public function scopes() {
     return array(
-      'latest' => array(
-        'order' => 't DESC',
+      'latest'=>array(
+        'order' => 't -1',
         'limit' => 1,
       ),
     );
