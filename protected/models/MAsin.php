@@ -22,6 +22,9 @@ class MAsin extends EMongoDocument {
   public $_sl;
   public $_sb;
 
+  //最后一次抓取
+  public $last;
+
   public static function model($className=__class__) {
     return parent::model($className);
   }

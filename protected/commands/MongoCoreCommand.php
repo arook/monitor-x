@@ -87,6 +87,7 @@ class MongoCoreCommand extends CConsoleCommand {
     $asin->_e = null;
     $asin->_r = 0;
     $asin->_x = false;
+    $asin->last = MAsin::model()->getCollection()->createDBRef($f);
     $asin->save();
 
     return;

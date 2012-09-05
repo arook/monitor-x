@@ -21,10 +21,9 @@ class ApiController extends Controller
     $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
     if(!$masin)
       return false;
-    $fetching = MFetching::model()->latest()->findAllByAttributes(array('a.$id'=>$masin->_id));
+    $fetching = MFetching::model()->getDbRef($masin->last);
     if(!$fetching)
       return false;
-    $fetching = $fetching[0];
     $list = array();
     foreach($fetching->l as $row) {
       $seller = MFetching::model()->getCollection()->getDbRef($row->s);
