@@ -25,20 +25,20 @@ class ApiController extends Controller
     if(!$fetching)
       return false;
     $list = array();
-    foreach($fetching->l as $row) {
+    foreach($fetching['l'] as $row) {
       $seller = MFetching::model()->getCollection()->getDbRef($row->s);
       $list[] = array(
-        'rank' => $row->r,
+        'rank' => $row['r'],
         'seller' => $seller['name'],
-        'if_fba' => $row->f,
-        'sell_price' => $row->p,
+        'if_fba' => $row['f'],
+        'sell_price' => $row['p'],
       );
     }
 
     return array(
       'list' => $list,
       'fs' => $masin->fs,
-      'br' => $fetching->br,
+      'br' => $fetching['br'],
     );
   }
 
