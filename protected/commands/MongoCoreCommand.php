@@ -73,6 +73,7 @@ class MongoCoreCommand extends CConsoleCommand {
       $l = new MListing;
       $l->r = intval($item['rank']);
       $l->p = intval($item['sell_price']*100) + intval($item['shipping_price']*100);
+      $l->sp = intval($item['shipping_price'] * 100);
       $l->s = $s_ref;
       $l->f = $item['if_fba'] ? true : false;
       $l->b = $item['if_buybox'] ? true : false;

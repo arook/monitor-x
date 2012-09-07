@@ -7,6 +7,9 @@ class MListing extends EMongoDocument {
   //price
   public $p;
 
+  //shipping price
+  public $sp;
+
   //seller
   public $s;
 
