@@ -198,9 +198,10 @@ class SiteController extends Controller
   {
     $asin = MAsin::model()->findByPK(new MongoId($_GET['id']));
     $attr = ($_GET['type'] == 'listing') ? '_sl' : '_sb';
-    if($asin->$attr)
-      echo $asin->$attr->bin;
-    else
+    $attr1 = ($_GET['type'] == 'listing') ? 'l_c' : 'b_c';
+    if($asin->$attr) {
+      $s = MSnapshot::model()->getCollection()->getDBref($asin->$attr);echo $s[$attr1];
+    } else
       echo 'nothing';
   }
 

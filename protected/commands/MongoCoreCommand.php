@@ -1,5 +1,9 @@
 <?php
 
+/**
+* @TODO 如果某ASIN一直没有正确结果 retry会一直飙，抓取维持正常的频率
+* 
+**/
 class MongoCoreCommand extends CConsoleCommand {
   protected $_content_listing;
   protected $_content_buybox;
@@ -26,7 +30,15 @@ class MongoCoreCommand extends CConsoleCommand {
       $asin->_x = false;
       $asin->_r = $asin->_r +1;
       $asin->_e = $e->getMessage();
-      $asin->_sl = new MongoBinData($this->_content_listing);
+
+      $snap = new MSnapshot();
+      $snap->dt = new MongoDate();
+      $snap->a = MAsin::model()->getCollection()->createDbRef($asin);
+      $snap->b_c = new MongoBinData($this->_content_buybox);
+      $snap->save();
+
+      $asin->_sl = MSnapshot::model()->getCollection()->createDbRef($snap);
+      
       if ($asin->_r < 3)
         $asin->next = new MongoDate();
       $asin->save();
@@ -39,7 +51,15 @@ class MongoCoreCommand extends CConsoleCommand {
       $asin->_x = false;
       $asin->_r = $asin->_r +1;
       $asin->_e = $e->getMessage();
-      $asin->_sb = new MongoBinData($this->_content_buybox);
+
+      $snap = new MSnapshot();
+      $snap->dt = new MongoDate();
+      $snap->a = MAsin::model()->getCollection()->createDbRef($asin);
+      $snap->b_c = new MongoBinData($this->_content_buybox);
+      $snap->save();
+
+      $asin->_sb = MSnapshot::model()->getCollection()->createDbRef($snap);
+
       if ($asin->_r < 3)
         $asin->next = new MongoDate();
       $asin->save();
@@ -88,6 +108,8 @@ class MongoCoreCommand extends CConsoleCommand {
     $asin->_e = null;
     $asin->_r = 0;
     $asin->_x = false;
+    $asin->_sb = null;
+    $asin->_sl = null;
     $asin->last = MFetching::model()->getCollection()->createDBRef($f);
     $asin->save();
 
