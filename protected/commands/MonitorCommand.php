@@ -20,7 +20,7 @@ class MonitorCommand extends CConsoleCommand
 					printf($formatter, $asin['asin'], $asin['level'], $node['id'], $rtn);
 					sleep(1);
 				} while ($rtn === 0);	
-				echo 'sleep', "\n";			
+				// echo 'sleep', "\n";			
 				usleep(self::T);
 			}
 		}
