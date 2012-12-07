@@ -10,14 +10,14 @@ class MonitorCommand extends CConsoleCommand
 
 	public function run($args)
 	{
-		$formatter = "ASIN[%s]\tNODE[%s]\tRTN[%s]\n";
+		$formatter = "ASIN[%s],LEVEL[%s],NODE[%s],RTN[%s]\n";
 		while (true) {
 			foreach ($this->get_asin_list(10) as $asin) {
 				do {
 					$node = Nodes::getInstance()->select_node_to_run();
 					$rtn = $this->push_to_queue($asin, $node);
 					// if ($rtn === 0) echo 'node no response', "\t";
-					printf($formatter, $asin['asin'], $node['id'], $rtn);
+					printf($formatter, $asin['asin'], $asin['level'], $node['id'], $rtn);
 					sleep(1);
 				} while ($rtn === 0);	
 				echo 'sleep', "\n";			
