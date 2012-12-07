@@ -17,7 +17,7 @@ class Redis extends CComponent {
       Predis\Autoloader::register();
     }
     if (!self::$_client instanceOf Predis\Client) {
-      self::$_client = new Predis\Client();
+      self::$_client = new Predis\Client('tcp://ds.hisgadget.com');
       self::$_client->select(5);
     }
     if (!self::$_client->isConnected()) {

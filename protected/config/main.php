@@ -41,6 +41,9 @@ return array(
     'bootstrap'=>array(
       'class'=>'ext.bootstrap.components.Bootstrap',
     ),
+    'cache'=>array(
+    	'class'=>'system.caching.CFileCache',
+    ),
     'format'=>array(
       'class'=>'application.components.MonitorFormatter',
     ),
@@ -68,7 +71,7 @@ return array(
 		),
     'mongodb'=>array(
       'class'=> 'EMongoDB',
-      'connectionString' => 'mongodb://localhost',
+      'connectionString' => 'mongodb://192.168.1.99',
       'dbName'           => 'monitor',
       'fsyncFlag'        => false,
       'safeFlag'         => false,

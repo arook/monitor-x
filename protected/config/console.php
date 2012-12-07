@@ -25,11 +25,14 @@ return array(
    */
     'mongodb'=>array(
       'class' => 'EMongoDB',
-      'connectionString' => 'mongodb://localhost',
+      'connectionString' => 'mongodb://192.168.1.99',
       'dbName' => 'monitor',
       'fsyncFlag' => true,
       'safeFlag' => true,
       'useCursor' => false,
+    ),
+    'cache'=>array(
+      'class'=>'system.caching.CFileCache',
     ),
 	),
 

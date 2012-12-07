@@ -1,7 +1,7 @@
 <?php
 
 class MFetching extends EMongoDocument {
-  //time
+  //任务发起的时间
   public $t;
 
   //asin
@@ -21,6 +21,17 @@ class MFetching extends EMongoDocument {
 
   //buybox rank
   public $br;
+
+  //参与当前任务发起的节点ID
+  public $sc;
+
+  //参与当前任务接收的节电ID
+  public $rc;
+
+  //任务返回的时间
+  public $rt;
+
+
 
   public static function model($className=__class__) {
     return parent::model($className);
