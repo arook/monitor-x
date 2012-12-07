@@ -62,7 +62,7 @@ class MonitorCommand extends CConsoleCommand
 		$asin->dt = new MongoDate();
         $asin->next = new MongoDate($asin->dt->sec + $asin->level);
         $asin->_x = true;
-        $asin->save(false)
+        $asin->save(false);
 
 		return Redis::client()->publish('monitor_' . $node->id, $asin->asin . ',' . $f->_id);
 	}
