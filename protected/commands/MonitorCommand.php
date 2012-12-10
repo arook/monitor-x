@@ -20,6 +20,7 @@ class MonitorCommand extends CConsoleCommand
 			$this->check_item_timeout();
 			foreach ($this->get_asin_list(10) as $asin) {
 				do {
+					// @TODO:提高效率
 					$node = Nodes::getInstance()->select_node_to_run();
 					$rtn = $this->push_to_queue($asin, $node);
 					// if ($rtn === 0) echo 'node no response', "\t";
@@ -57,6 +58,7 @@ class MonitorCommand extends CConsoleCommand
 	{
 		$criteria = new EMongoCriteria();
 		$criteria->addCond('next', '<=', new MongoDate());
+		$criteria->addCond('_r', '<=', 100);
 		$criteria->limit($count);
 		//频率高的总是放到前面跑
 		$criteria->sort('level', 1);
