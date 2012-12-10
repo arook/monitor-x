@@ -18,21 +18,25 @@ class MonitorCommand extends CConsoleCommand
 		$formatter = "DT[%s],ASIN[%s],LEVEL[%s],NODE[%s],RTN[%s],RTRY[%s]\n";
 		while (true) {
 			$this->check_item_timeout();
-			foreach ($this->get_asin_list(10) as $asin) {
-				do {
-					// @TODO:提高效率
-					$node = Nodes::getInstance()->select_node_to_run();
-					$rtn = $this->push_to_queue($asin, $node);
-					// if ($rtn === 0) echo 'node no response', "\t";
-					printf($formatter, date('H:i:s'), $asin['asin'], $asin['level'], $node['id'], $rtn, $asin['_r']);
-				} while ($rtn === 0);	
-				// echo 'sleep', "\n";			
-				usleep(self::T);
+			$asins = $this->get_asin_list(10);
+			if (count($asins) == 0) {
+				echo 'empty queue,sleeping 3s...';
+				sleep(3);
+			} else {
+				foreach ($asins as $asin) {
+					do {
+						// @TODO:提高效率
+						$node = Nodes::getInstance()->select_node_to_run();
+						$rtn = $this->push_to_queue($asin, $node);
+						// if ($rtn === 0) echo 'node no response', "\t";
+						printf($formatter, date('H:i:s'), $asin['asin'], $asin['level'], $node['id'], $rtn, $asin['_r']);
+					} while ($rtn === 0);	
+					// echo 'sleep', "\n";			
+					usleep(self::T);
+				}
 			}
 		}
-		
-		
-	}
+ 	}
 
 	private function check_item_timeout()
 	{
