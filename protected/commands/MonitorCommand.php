@@ -8,7 +8,7 @@ class MonitorCommand extends CConsoleCommand
 {
 
 	// 请求发送的时间间隔(ms)
-	const T = 300000;
+	const T = 400000;
 
 	// 任务超时时间(s)
 	const TIMEOUT = 30;
