@@ -24,7 +24,6 @@ class MonitorCommand extends CConsoleCommand
 					$rtn = $this->push_to_queue($asin, $node);
 					// if ($rtn === 0) echo 'node no response', "\t";
 					printf($formatter, $asin['asin'], $asin['level'], $node['id'], $rtn);
-					sleep(1);
 				} while ($rtn === 0);	
 				// echo 'sleep', "\n";			
 				usleep(self::T);
