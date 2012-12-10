@@ -3,6 +3,8 @@
 /**
 * 负责执行任务的节点
 * Weighted Round-Robin Scheduling
+*
+* @todo select_node_to_run 优化算法，提高效率
 * 
 */
 class Nodes extends CComponent
@@ -20,9 +22,15 @@ class Nodes extends CComponent
 
 	/**
 	 * 上一次选择的node的编号
-	 * @var [type]
+	 * @var int
 	 */
 	private static $i = -1;
+
+	/**
+	 * 缓存最大公约数，当nodes缓存变化时，重新计算
+	 * @var int
+	 */
+	private static $gcd = 1;
 
 	/**
 	 * 所有node的权重列表
@@ -52,13 +60,13 @@ class Nodes extends CComponent
 		$nodes = $this->get_nodes_list();
 		// 起始cw
 		if (self::$cw == 0) {
-			self::$cw = $this->greatest_common_divisor(self::$nodes);
+			self::$cw = self::$gcd;
 		}
 
 		// 遍历边界处理
 		if (self::$i == count($nodes) -1) {
 			self::$i = -1;
-			self::$cw += $this->greatest_common_divisor(self::$nodes);
+			self::$cw += self::$gcd;
 			// cw边界处理
 			if (self::$cw > max(self::$nodes)) {
 				self::$cw = 0;
@@ -105,6 +113,7 @@ class Nodes extends CComponent
 					$nws[] = $node['weight'];
 				}
 				self::$nodes = $nws;
+				self::$gcd = $this->greatest_common_divisor(self::$nodes);
 			}
 			return $nodes;
 		}
@@ -160,6 +169,7 @@ class Nodes extends CComponent
 			$nws[] = $node['weight'];
 		}
 		self::$nodes = $nws;
+		self::$gcd = $this->greatest_common_divisor(self::$nodes);
 
 		Yii::app()->cache->set('sys.nodes', $nodes, 60 * 10, new CGlobalStateCacheDependency('MNode'));
 		return $nodes;
