@@ -178,8 +178,8 @@ class AsinsController extends Controller
         elseif ($model->next == 'next')
           $model->next = array('$lt' => new MongoDate(time() + 3600));
         elseif ($model->next == 'issues') {
-          $model->next = null;
-          $model->_r = array('$gte' => 3);
+          // $model->next = null;
+          $model->_r = array('$gte' => 100);
           $model->getDbCriteria()->sort('_r', -1);
         }
     }
