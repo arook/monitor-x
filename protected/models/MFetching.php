@@ -22,10 +22,10 @@ class MFetching extends EMongoDocument {
   //buybox rank
   public $br;
 
-  //参与当前任务发起的节点ID
+  //参与当前任务发起的结点ID
   public $sc;
 
-  //参与当前任务接收的节电ID
+  //参与当前任务接收的结点ID
   public $rc;
 
   //任务返回的时间
