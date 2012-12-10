@@ -31,6 +31,8 @@ class MFetching extends EMongoDocument {
   //任务返回的时间
   public $rt;
 
+  public $status;
+
 
 
   public static function model($className=__class__) {

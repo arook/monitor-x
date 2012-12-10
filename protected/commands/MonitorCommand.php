@@ -2,16 +2,22 @@
 
 /**
 * 	主控
+* 	@todo 处理超时
 */
 class MonitorCommand extends CConsoleCommand
 {
 
+	// 请求发送的时间间隔(ms)
 	const T = 800000;
+
+	// 任务超时时间(s)
+	const TIMEOUT = 30;
 
 	public function run($args)
 	{
 		$formatter = "ASIN[%s],LEVEL[%s],NODE[%s],RTN[%s]\n";
 		while (true) {
+			$this->check_item_timeout();
 			foreach ($this->get_asin_list(10) as $asin) {
 				do {
 					$node = Nodes::getInstance()->select_node_to_run();
@@ -26,6 +32,21 @@ class MonitorCommand extends CConsoleCommand
 		}
 		
 		
+	}
+
+	private function check_item_timeout()
+	{
+		$criteria = new EMongoCriteria;
+		$criteria->addCond('status', '==', null);
+		$criteria->addCond('rt', '==', null);
+		$criteria->addCond('t', '<=', new MongoDate(strtotime("- " . self::TIMEOUT . ' second')));
+		foreach (MFetching::model()->findAll($criteria) as $fetching) {
+			$fetching['status'] = 504;
+			$fetching['rt'] = new MongoDate();
+			$fetching['rc'] = null;
+			$fetching->save(false);
+			
+		} ;
 	}
 
 	/**
