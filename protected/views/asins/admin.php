@@ -84,6 +84,7 @@ Yii::app()->clientScript->registerScript('search', "
     ),
 		'level',
     'fs',
+	'_r',
     array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
       'buttons'=>array(
