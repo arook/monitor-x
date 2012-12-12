@@ -10,7 +10,7 @@
 class Nodes extends CComponent
 {
 
-	const TIME_AREA = '- 1 hour';
+	const TIME_AREA = '- 10 minutes';
 
 	private static $_instance;
 
