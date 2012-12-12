@@ -62,7 +62,7 @@ class MonitorCommand extends CConsoleCommand
 	{
 		$criteria = new EMongoCriteria();
 		$criteria->addCond('next', '<=', new MongoDate());
-		$criteria->addCond('_r', '<=', 100);
+		$criteria->addCond('_r', '<=', 10);
 		$criteria->limit($count);
 		//频率高的总是放到前面跑
 		$criteria->sort('level', 1);

@@ -10,6 +10,8 @@
 	<?php echo $form->textFieldRow($model,'asin',array('class'=>'span5','maxlength'=>10)); ?>
 
 	<?php echo $form->textFieldRow($model,'level',array('class'=>'span5')); ?>
+	
+	<?php echo $form->textFieldRow($model,'_r',array('class'=>'span5')); ?>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
