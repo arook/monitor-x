@@ -164,7 +164,7 @@ class AsinsController extends Controller
           $nadded ++;
 		  $m->next = $m->dt = new MongoDate();
 		  $m->_r = 0;
-          if($intval >= 3600) {}
+          if($intval >= 3600)
             $m->next = new MongoDate($start_time = $start_time + $step);
         } else
           $nupdated++;
