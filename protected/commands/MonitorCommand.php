@@ -20,8 +20,8 @@ class MonitorCommand extends CConsoleCommand
 			$this->check_item_timeout();
 			$asins = $this->get_asin_list(10);
 			if (count($asins) == 0) {
-				echo 'empty queue,sleeping 3s...';
-				sleep(3);
+				echo 'empty queue,sleeping 10s...', "\n";
+				sleep(10);
 			} else {
 				foreach ($asins as $asin) {
 					do {
