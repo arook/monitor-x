@@ -30,7 +30,7 @@ class ServerCommand extends CConsoleCommand
 		$body = json_decode($body);
 		if (is_null($body)) return;
 		
-		$fetching = MFetching::model()->findByPK($body->fid);
+		$fetching = MFetching::model()->findByPK(new MongoID($body->fid));
 		if (is_null($fetching)) return;
 		
 		$fetching->rt = new MongoDate();
