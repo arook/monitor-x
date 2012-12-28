@@ -51,7 +51,7 @@ class ServerCommand extends CConsoleCommand
 			$item['b'] = $current->if_buybox;
 			$fetching->l[] = $item;
 		}
-		$fetching->save();
+		$fetching->save(false);
 		
 		$asin = MAsin::model()->findByPK($fetching->a{'$id'});
 		switch ($body->status) {
@@ -69,7 +69,7 @@ class ServerCommand extends CConsoleCommand
 				$asin->next = new MongoDate();
 				break;
 		}
-		$asin->save();
+		$asin->save(false);
 		
 	}
 	
