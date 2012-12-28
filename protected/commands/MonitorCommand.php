@@ -6,6 +6,9 @@
 */
 class MonitorCommand extends CConsoleCommand
 {
+	/*
+		TODO Handler 404
+	*/
 
 	// 请求发送的时间间隔(ms)
 	const T = 500000;
