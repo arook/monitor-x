@@ -42,7 +42,8 @@ return array(
       'class'=>'ext.bootstrap.components.Bootstrap',
     ),
     'cache'=>array(
-    	'class'=>'system.caching.CFileCache',
+    	'class'=>'EMongoDBCache',
+		'ensureIndex' => true,
     ),
     'format'=>array(
       'class'=>'application.components.MonitorFormatter',

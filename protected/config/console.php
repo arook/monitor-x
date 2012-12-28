@@ -32,7 +32,8 @@ return array(
       'useCursor' => false,
     ),
     'cache'=>array(
-      'class'=>'system.caching.CFileCache',
+      'class'=>'EMongoDBCache',
+	  'ensureIndex' => true, 
     ),
 	),
 
