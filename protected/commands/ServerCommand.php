@@ -4,6 +4,7 @@ class ServerCommand extends CConsoleCommand
 {
 	public function run($args)
 	{
+		file_put_contents(Yii::app()->getRuntimePath() . DIRECTORY_SEPARATOR . 'monitor.receive.pid', getmypid());
 		$pubsub = Redis::client()->pubsub();
 		$pubsub->subscribe('monitor_center');
 		foreach ($pubsub as $message) {
