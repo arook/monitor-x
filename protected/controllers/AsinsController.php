@@ -134,6 +134,14 @@ class AsinsController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+	
+	public function actionReset($id)
+	{
+		$asin = $this->loadModel($id);
+		$asin->_r = 0;
+		$asin->save();
+		exit();
+	}
 
 	/**
 	 * Manages all models.
@@ -154,7 +162,8 @@ class AsinsController extends Controller
         if(!$m = MAsin::model()->findByAttributes(array('asin'=>$asin))) {
           $m=new MAsin;
           $nadded ++;
-          if($intval >= 3600)
+		  $m->next = $m->dt = new MongoDate();
+          if($intval >= 3600) {}
             $m->next = new MongoDate($start_time = $start_time + $step);
         } else
           $nupdated++;

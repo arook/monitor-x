@@ -85,17 +85,26 @@ Yii::app()->clientScript->registerScript('search', "
 		'level',
     'fs',
 	'_r',
-    array(
-			'class'=>'bootstrap.widgets.TbButtonColumn',
-      'buttons'=>array(
-        'view'=>array(
-          'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
-          'options'=>array(
-            'target'=>'_blank',
-          ),
-        ),
-      ),
+	array(
+		'class'=>'bootstrap.widgets.TbButtonColumn',
+		'template'=>'{reset} {view} {delete}',
+		'buttons'=>array(
+			'reset'=>array(
+				'icon'=>'refresh',
+				'url'=>'Yii::app()->controller->createUrl("asins/reset", array("id" => $data->_id))',
+				'options'=>array(
+	            	'target'=>'_blank',
+	          	),
+			),
+			'view'=>array(
+				'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
+				'options'=>array(
+	            	'target'=>'_blank',
+	          	),
+	        ),
 		),
+	),
+   
 	),
 )); ?>
 
