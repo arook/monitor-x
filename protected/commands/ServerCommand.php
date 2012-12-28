@@ -38,17 +38,17 @@ class ServerCommand extends CConsoleCommand
 		$fetching->status = $body->status;
 		
 		foreach ($body->result as $current) {
-			if ($current['if_buybox']) {
-				$fetching->bp = $current['sell_price'];
-				$fetching->br = $current['rank'];
+			if ($current->if_buybox) {
+				$fetching->bp = $current->sell_price;
+				$fetching->br = $current->rank;
 			}
 			$item = array();
-			$item['r'] = $current['rank'];
-			$item['p'] = $current['sell_price'];
-			$item['sp'] = $current['shipping_price'];
-			$item['s'] = $this->getOrCreateSeller($current['sid'], $current['seller'], $current['avatar']);
-			$item['f'] = $current['if_fba'];
-			$item['b'] = $current['if_buybox'];
+			$item['r'] = $current->rank;
+			$item['p'] = $current->sell_price;
+			$item['sp'] = $current->shipping_price;
+			$item['s'] = $this->getOrCreateSeller($current->sid, $current->seller, $current->avatar);
+			$item['f'] = $current->if_fba;
+			$item['b'] = $current->if_buybox;
 			$fetching->l[] = $item;
 		}
 		$fetching->save();
