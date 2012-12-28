@@ -57,16 +57,16 @@ class ServerCommand extends CConsoleCommand
 		switch ($body->status) {
 			case 200:
 			case 201:
-				$asin->last = MFetching::model()->getCollection()->createDbRef($fetching);
-				$asin->fs = count($body->result);
-				$asin->_x = false;
-				$asin->_r = 0;
-				break;
+				$asin['last'] = MFetching::model()->getCollection()->createDbRef($fetching);
+				$asin['fs'] = count($body->result);
+				$asin['_x'] = false;
+				$asin['_r'] = 0;
+				break; 
 			default:
-				$asin->_x = true;
-				$asin->_e = $body->msg;
-				$asin->_r = $asin->_r ? $asin->_r + 1 : 1;
-				$asin->next = new MongoDate();
+				$asin['_x'] = true;
+				$asin['_e'] = $body->msg;
+				$asin['_r'] = $asin->_r ? $asin->_r + 1 : 1;
+				$asin['next'] = new MongoDate();
 				break;
 		}
 		$asin->save();
