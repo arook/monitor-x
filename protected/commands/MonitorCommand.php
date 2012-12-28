@@ -15,6 +15,8 @@ class MonitorCommand extends CConsoleCommand
 
 	public function run($args)
 	{
+		file_put_contents(Yii::app()->getRuntimePath() . DIRECTORY_SEPARATOR . 'monitor.pid', getmypid());
+		
 		$formatter = "DT[%s],ASIN[%s],LEVEL[%s],NODE[%s],RTN[%s],RTRY[%s]\n";
 		while (true) {
 			$this->check_item_timeout();
