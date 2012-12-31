@@ -111,7 +111,7 @@ function() {
 	return false;
 }
 EOD;
-			),
+			,
 			'view'=>array(
 				'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
 				'options'=>array(
