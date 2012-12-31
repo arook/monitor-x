@@ -110,7 +110,7 @@ Yii::app()->clientScript->registerScript('search', "
 						});
 						return false;
 					}
-EOD;
+EOD
 			),
 			'view'=>array(
 				'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
