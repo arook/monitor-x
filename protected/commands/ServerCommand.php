@@ -52,7 +52,7 @@ class ServerCommand extends CConsoleCommand
 			$fetching->l[] = $item;
 		}
 		$fetching->save();
-		var_dump($fetching->getErrors());
+		// var_dump($fetching->getErrors());
 		
 		$asin = MAsin::model()->findByPK($fetching->a{'$id'});
 		switch ($body->status) {
@@ -71,7 +71,7 @@ class ServerCommand extends CConsoleCommand
 				break;
 		}
 		$asin->save();
-		var_dump($asin->getErrors());
+		// var_dump($asin->getErrors());
 		
 	}
 	

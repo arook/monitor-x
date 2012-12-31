@@ -45,7 +45,7 @@ class MFetching extends EMongoDocument {
 
   public function rules() {
     return array(
-      array('t, a, l, bp, br', 'required'),
+      // array('t, a, l, bp, br', 'required'),
       //array('', 'safe', 'on'=>'search'),
     );
   }
