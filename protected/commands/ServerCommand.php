@@ -43,13 +43,13 @@ class ServerCommand extends CConsoleCommand
 				$fetching->bp = $current->sell_price;
 				$fetching->br = $current->rank;
 			}
-			$item = array();
-			$item['r'] = $current->rank;
-			$item['p'] = $current->sell_price;
-			$item['sp'] = $current->shipping_price;
-			$item['s'] = $this->getOrCreateSeller($current->sid, $current->seller, $current->avatar);
-			$item['f'] = $current->if_fba;
-			$item['b'] = $current->if_buybox;
+			$item = new MListing;
+			$item->r = $current->rank;
+			$item->p = $current->sell_price;
+			$item->sp = $current->shipping_price;
+			$item->s = $this->getOrCreateSeller($current->sid, $current->seller, $current->avatar);
+			$item->f = $current->if_fba;
+			$item->b = $current->if_buybox;
 			$fetching->l[] = $item;
 		}
 		$fetching->save();
