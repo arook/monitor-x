@@ -36,6 +36,7 @@ class ServerCommand extends CConsoleCommand
 		$fetching->rt = new MongoDate();
 		$fetching->rc = $body->client;
 		$fetching->status = $body->status;
+		$fetching->l = array();
 		
 		foreach ($body->result as $current) {
 			if ($current->if_buybox) {
