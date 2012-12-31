@@ -98,11 +98,11 @@ Yii::app()->clientScript->registerScript('search', "
 				'click'=><<<EOD
 					function() {
 						var th=this;
-						$.fn.yiiGridView.update('{$this->grid->id}', {
+						$.fn.yiiGridView.update('asin-grid', {
 							type: 'POST',
 							url:$(this).attr('href'),$csrf
 							success:function(data) {
-								$.fn.yiiGridView.update('{$this->grid->id}');
+								$.fn.yiiGridView.update('asin-grid');
 							},
 							error:function(XHR) {
 								return;
