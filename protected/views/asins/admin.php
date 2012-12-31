@@ -100,7 +100,7 @@ Yii::app()->clientScript->registerScript('search', "
 						var th=this;
 						$.fn.yiiGridView.update('asin-grid', {
 							type: 'POST',
-							url:$(this).attr('href'),// $csrf
+							url:$(this).attr('href'),
 							success:function(data) {
 								$.fn.yiiGridView.update('asin-grid');
 							},
