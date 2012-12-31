@@ -95,6 +95,22 @@ Yii::app()->clientScript->registerScript('search', "
 				'options'=>array(
 	            	'target'=>'_blank',
 	          	),
+				'click'=><<<EOD
+function() {
+	var th=this;
+	$.fn.yiiGridView.update('{$this->grid->id}', {
+		type: 'POST',
+		url:$(this).attr('href'),$csrf
+		success:function(data) {
+			$.fn.yiiGridView.update('{$this->grid->id}');
+		},
+		error:function(XHR) {
+			return;
+		}
+	});
+	return false;
+}
+EOD;
 			),
 			'view'=>array(
 				'url'=>'Yii::app()->controller->createUrl("site/default", array("AsinForm[asin]" => $data->asin))',
