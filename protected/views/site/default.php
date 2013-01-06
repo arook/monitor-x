@@ -66,8 +66,8 @@
   'columns'=>array_merge(array(
 //    'id',
     array(
-      'name'=>'time',
-      'value'=>'date("F j, g:i a", $data["t"]->sec)',
+      'name'=>'DT',
+      'value'=>'date("m-d H:i:s", $data["t"]->sec)',
     ),
 //    'bp',
 //    'bs',

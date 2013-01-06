@@ -177,7 +177,10 @@ class SiteController extends Controller
     if ($form->asin)
       $asin = MAsin::model()->findByAttributes(array('asin' => $form->asin));
     if (isset($asin)) {
-      $model->getDbCriteria()->addCond('a.$id', '==', $asin->_id)->sort('t', -1);
+      $model->getDbCriteria()
+				->addCond('a.$id', '==', $asin->_id)
+				->addCond('l', '!=', array())
+				->sort('t', -1);
       foreach(range(0, $asin->fs - 1) as $k) {
         $columns[] = array('header' =>$k + 1, 'name'=>"l.$k", 'type'=>'rank');
       }
