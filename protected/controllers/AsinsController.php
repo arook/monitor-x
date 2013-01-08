@@ -183,9 +183,10 @@ class AsinsController extends Controller
       if($model->level)
         $model->level = new MongoInt32($model->level);
       if($model->next)
-        if($model->next == 'now')
+        if($model->next == 'now') {
           $model->next = array('$lt' => new MongoDate());
-        elseif ($model->next == 'next')
+          $model->_r = array('$lt' => 10);
+        } elseif ($model->next == 'next')
           $model->next = array('$lt' => new MongoDate(time() + 3600));
         elseif ($model->next == 'issues') {
           $model->next = null;
