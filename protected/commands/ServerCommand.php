@@ -69,6 +69,8 @@ class ServerCommand extends CConsoleCommand
 				$asin->_e = $body->msg;
 				$asin->_r = $asin->_r ? $asin->_r + 1 : 1;
 				$asin->next = new MongoDate();
+				if ($body->status == 503)
+					$this->lockNode($body->client);
 				break;
 		}
 		$asin->save();
@@ -87,5 +89,11 @@ class ServerCommand extends CConsoleCommand
 			$seller->save();
 		}
 		return MSeller::model()->getCollection()->createDbRef($seller);
+	}
+	
+	private function lockNode($node_id)
+	{
+		$node = MNode::model()->findByAttributes(array('id'=>$node_id));
+		$node->lock();
 	}
 }

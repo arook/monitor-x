@@ -29,6 +29,13 @@ class MNode extends EMongoDocument {
   // 平均执行时间
   public $n_time;
 
+  // 是否lock
+  public $if_locked;
+
+  // locking history
+  public $last_lock;
+	
+
   public static function model($className=__class__) {
     return parent::model($className);
   }
@@ -53,6 +60,24 @@ class MNode extends EMongoDocument {
   public function afterSave() {
     Yii::app()->setGlobalState('MNode', time());
 
+  }
+
+  public function lock()
+  {
+  	$this->if_locked = true;
+    $lock = new MNodeLock;
+    $lock->node = $this->getCollection()->createDbRef($this);
+    $lock->lock_start = new MongoDate();
+    $lock->save();
+    $this->last_lock = MNodeLock::model()->getCollection()->createDbRef($lock);
+    $this->save();
+  }
+
+  public function unlock()
+  {
+  	$this->if_locked = false;
+  	$this->last_lock = null;
+    $this->save();
   }
 
 }
