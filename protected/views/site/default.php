@@ -69,6 +69,10 @@
       'name'=>'DT',
       'value'=>'date("m-d H:i:s", $data["t"]->sec)',
     ),
+    array(
+      'name'=>'Node',
+      'value'=>'$data["rc"]',
+    ),
 //    'bp',
 //    'bs',
   ), $columns),
