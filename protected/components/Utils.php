@@ -12,7 +12,7 @@ class Utils extends CComponent {
     $seller = MSeller::model()->getCollection()->getDbRef($sid);
     if($avatar = $seller['avatar']) {
 			if ($resize) {
-				return "<img src='$avatar' width='80' height='20' />";
+				return "<img src='$avatar' width='40' height='10' />";
 			}
 			return "<img src='$avatar' width='120' height='30' />";
 		}
