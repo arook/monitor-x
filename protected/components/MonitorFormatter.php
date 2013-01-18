@@ -23,7 +23,7 @@ class MonitorFormatter extends CFormatter {
   public function formatRank($value) {
     $html = '';
     // $html .= '<a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">';
-	$logo = '<div style="border:0px solid #000;width:40px;heigth:10px;display:block;overflow:hidden;"><a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">' . Utils::getAvatarBySid($value->s, true) . "</a></div>";
+	$logo = '<span style="border:0px solid #000;width:40px;heigth:10px;display:block;overflow:hidden;"><a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">' . Utils::getAvatarBySid($value->s, true) . "</a></span>";
 	
 	$line = "<hr style='margin:1px'>";
 	
