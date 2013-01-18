@@ -27,16 +27,16 @@
 
 		<?php if (isset($_GET['AsinForm']) && isset($_GET['AsinForm']['asin'])):?>
 		<?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
-      'toggle'=>'radio',
-      'buttons'=>array(
-        array('label'=>'概要', 'url'=>'?r=asins/summary/id/'.$asin->_id, 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
-        array('label'=>'BUYBOX', 'url'=>'?r=asins', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
-        array('label'=>'PRICE', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
-        
-        array('label'=>'负载分布', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
-        array('label'=>'上传ASIN', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#uploadModal')),
-      ),
-    )) ?>
+			'toggle'=>'radio',
+			'buttons'=>array(
+				array('label'=>'概要', 'url'=>'?r=asins/summary/id/'.$asin->_id, 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
+				array('label'=>'BUYBOX', 'url'=>'?r=asins', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
+				array('label'=>'PRICE', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
+
+				array('label'=>'负载分布', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#statusModal')),
+				array('label'=>'上传ASIN', 'url'=>'', 'htmlOptions'=>array('data-toggle'=>'modal', 'data-target'=>'#uploadModal')),
+			),
+			)) ?>
 		<?php endif?>
 
 <?php $this->endWidget(); ?>

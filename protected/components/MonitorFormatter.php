@@ -23,20 +23,22 @@ class MonitorFormatter extends CFormatter {
   public function formatRank($value) {
     $html = '';
     // $html .= '<a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">';
-		$html .= '<span style="display:block;float:left;margin-right:2px;"><a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">' . Utils::getAvatarBySid($value->s, true) . "</a></span>";
-
+	$logo = '<div style="border:0px solid #000;width:80px;heigth:20px;display:block;"><a href="javascript:;" rel="tooltip" title="' . Utils::getAvatarBySid($value->s) . '">' . Utils::getAvatarBySid($value->s, true) . "</a></div>";
+	
+	$line = "<hr style='margin:1px'>";
+	
     if($value->f)
-      $html .= '<span style="color:#C60;border:1px solid;padding:2px 4px;">';
+      $html = '<span style="color:#C60;border:1px solid;padding:2px 4px;">';
     else
-      $html .= '<span>';
-
+      $html = '<span>';
+	
     $html .= ($value->p/100 + $value->sp/100);
-    $html .= '</span>';
+    $html .= '</div>';
 
 		
     if($value->b)
       $html = '<b style="background:#FF0;">'.$html.'</b>';
-    return $html;
+    return $logo . $line . $html;
   }
 
 }
