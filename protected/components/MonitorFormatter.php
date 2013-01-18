@@ -30,7 +30,7 @@ class MonitorFormatter extends CFormatter {
     else
       $html .= '<span>';
 
-    $html .= $value->p/100;
+    $html .= ($value->p/100 + $value->sp/100);
     $html .= '</span>';
 
 		
