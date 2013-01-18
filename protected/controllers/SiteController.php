@@ -185,8 +185,7 @@ class SiteController extends Controller
         $columns[] = array('header' =>$k + 1, 'name'=>"l.$k", 'type'=>'rank');
       }
     }
-
-
+    
     $this->render('default', array(
       'form'=>$form,
       'model'=>$model,

@@ -135,6 +135,15 @@ class AsinsController extends Controller
 		));
 	}
 	
+	public function actionSummary($id='')
+	{
+		$this->layout='//layouts/modal';
+		$model = $this->loadModel($id);
+		$this->render('summary', array(
+			'model'=>$model,
+		));
+	}
+	
 	public function actionReset($id)
 	{
 		$asin = $this->loadModel($id);
@@ -301,3 +310,4 @@ class AsinsController extends Controller
   }
 
 }
+
