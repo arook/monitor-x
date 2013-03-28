@@ -76,6 +76,7 @@ class ApiController extends Controller
         $seller = $this->getSeller($row['s']);
         $list[$key][] = array(
           // 'bbx' => $f['br'],
+          'bbx' => $f['br'] == ($row['r'] + 1),
           'rank' => $row['r'],
           'seller' => $seller['name'],
           'if_fba' => $row['f'],
