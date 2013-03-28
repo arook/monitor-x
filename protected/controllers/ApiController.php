@@ -60,15 +60,16 @@ class ApiController extends Controller
   
   /**
    * 获取指定asin的过去多少个小时的价格曲线
-   * @param string the asin to look up
-   * @param int hours
+   * @param string $asin the asin to look up
+   * @param int $from
+   * @param int $to
    * @return array list
    * @soap
    */
-  public function getPricing($asin, $hours = 24)
+  public function getPricing($asin, $from, $to)
   {
     $list = array();
-		$fetching = $this->getListByAsin($asin, $hours);
+		$fetching = $this->getListByAsin($asin, $from, $to);
 		
 		foreach ($fetching as $key => $f) {
 		  foreach($f['l'] as $row) {
@@ -89,14 +90,15 @@ class ApiController extends Controller
   /**
    * 获取指定ASIN的BBX价格
    * @param string the asin to look up
-   * @param int hours
+   * @param int $from
+   * @param int $to
    * @return array list
    * @soap
    */
-  public function getBbxPricing($asin, $hours = 24)
+  public function getBbxPricing($asin, $from, $to)
   {
     $list = array();
-    $fetching = $this->getListByAsin($asin, $hours);
+    $fetching = $this->getListByAsin($asin, $from, $to);
     
     foreach ($fetching as $key => $f) {
       if ($f['br']) {
@@ -106,7 +108,7 @@ class ApiController extends Controller
     return $list;
   }
   
-  private function getListByAsin($asin, $hours)
+  private function getListByAsin($asin, $from, $to)
   {
     $masin = MAsin::model()->findByAttributes(array('asin'=>$asin));
     if (!$masin)
@@ -114,7 +116,8 @@ class ApiController extends Controller
     $c = MFetching::model()->getDbCriteria()
 			->addCond('a.$id', '==', $masin->_id)
 			->addCond('status', '==', 200)
-			->addCond('t', '>', new MongoDate(strtotime("- $hours hours")))
+			->addCond('t', '>=', new MongoDate($from))
+			->addCond('t', '<=', new MongoDate($to))
 			->sort('t', -1);
 		return MFetching::model()->findAll($c);
   }
