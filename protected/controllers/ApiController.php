@@ -63,18 +63,19 @@ class ApiController extends Controller
    * @param string $asin the asin to look up
    * @param int $from
    * @param int $to
-   * @return array list
+   * @return array $list array(array('bp', 'list'), )
    * @soap
    */
-  public function getPricing($asin, $from, $to)
+  public function getPricingHistory($asin, $from, $to)
   {
     $list = array();
 		$fetching = $this->getListByAsin($asin, $from, $to);
 		
 		foreach ($fetching as $key => $f) {
+		  $list[$key]['bp'] = $f['l'][$f['br'] - 1]['p'] + $f['l'][$f['br'] - 1]['sp'];
 		  foreach($f['l'] as $row) {
         $seller = $this->getSeller($row['s']);
-        $list[$key][] = array(
+        $list[$key]['list'][] = array(
           // 'bbx' => $f['br'],
           'bbx' => $f['br'] == ($row['r'] + 1),
           'rank' => $row['r'],
@@ -85,27 +86,6 @@ class ApiController extends Controller
         );
       }
 		}
-    return $list;
-  }
-  
-  /**
-   * 获取指定ASIN的BBX价格
-   * @param string the asin to look up
-   * @param int $from
-   * @param int $to
-   * @return array list
-   * @soap
-   */
-  public function getBbxPricing($asin, $from, $to)
-  {
-    $list = array();
-    $fetching = $this->getListByAsin($asin, $from, $to);
-    
-    foreach ($fetching as $key => $f) {
-      if ($f['br']) {
-        $list[] = $f['l'][$f['br'] - 1]['p'] + $f['l'][$f['br'] - 1]['sp'];
-      }
-    }
     return $list;
   }
   
