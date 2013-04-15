@@ -181,6 +181,9 @@ class SiteController extends Controller
 				->addCond('a.$id', '==', $asin->_id)
 				->addCond('l', '!=', array())
 				->sort('t', -1);
+			if ($asin->fs == 0) {
+				$asin->fs = 10;
+			}
       foreach(range(0, $asin->fs - 1) as $k) {
         $columns[] = array('header' =>$k + 1, 'name'=>"l.$k", 'type'=>'rank');
       }
