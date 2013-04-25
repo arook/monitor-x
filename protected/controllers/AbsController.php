@@ -6,7 +6,7 @@ class AbsController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	// public $layout='//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -31,7 +31,7 @@ class AbsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','asin'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -140,12 +140,57 @@ class AbsController extends Controller
 	{
 		$model = new MAbsRanking('search');
 		$model->unsetAttributes();
+		
+		$cats = array();
+		foreach (MAbs::model()->findAll() as $cat) {
+			$cats[(string) $cat->_id] = $cat->c1 . ($cat->c2 ? ('->' . $cat->c2) : '');
+		}
 
-		if(isset($_GET['MAbsRanking']))
-			$model->setAttributes($_GET['MAbsRanking']);
+		if(isset($_POST['MAbsRanking'])) {
+			$model->setAttributes($_POST['MAbsRanking']);
+		} else {
+			$this->render('admin', array(
+				'model'=>$model,
+				'cats'=>$cats,
+				'ranking'=>new CArrayDataProvider(array()),
+			));
+			return;
+		}
+
+		$c = new EMongoCriteria;
+		$model->cat ? $c->{'cat.$id'} = new MongoId($model->cat) : '';
+		$model->dt ? $c->dt = new MongoDate(strtotime($model->dt)) : '';
+		$c->sort('rank', 1);
+
+		$ranking = new CArrayDataProvider(
+			MAbsRanking::model()->findAll($c),
+			array(
+				'keyField' => false,
+				'pagination' => array(
+					'pageSize' => 100,
+				),
+			)
+		);
+		
+		// var_dump($ranking);
 
 		$this->render('admin', array(
-			'model'=>$model
+			'model'=>$model,
+			'cats'=>$cats,
+			'ranking'=>$ranking,
+		));
+	}
+	
+	public function actionAsin($asin)
+	{
+		$this->layout=false;
+		$c = new EMongoCriteria;
+		$c->asin = $asin;
+		$history = MAbsRanking::model()->findAll($c);
+		
+		$this->render('asin', array(
+			'history' => $history,
+			'asin' => $asin,
 		));
 	}
 
