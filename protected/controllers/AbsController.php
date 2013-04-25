@@ -186,6 +186,7 @@ class AbsController extends Controller
 		$this->layout=false;
 		$c = new EMongoCriteria;
 		$c->asin = $asin;
+		$c->sort('dt', -1);
 		$history = MAbsRanking::model()->findAll($c);
 		
 		$this->render('asin', array(
