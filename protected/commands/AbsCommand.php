@@ -26,15 +26,17 @@ class AbsCommand extends CConsoleCommand
 		$ref = MAbs::model()->getCollection()->createDBRef($item);
 		$dt = new MongoDate(strtotime(date('Y-m-d')));
 		$insert = array();
-		$reg = '/<span class="zg_rankNumber">([\d]+)\.<\/span><span class="zg_rankMeta"><\/span><\/div><div class="zg_title"><a  href=".*?\/dp\/([0-9A-Z]{10})\/[^"]+">(.*?)<\/a><\/div>/is';
+    // $reg = '/<span class="zg_rankNumber">([\d]+)\.<\/span><span class="zg_rankMeta"><\/span><\/div><div class="zg_title"><a  href=".*?\/dp\/([0-9A-Z]{10})\/[^"]+">(.*?)<\/a><\/div>/is';
+		$reg = '/<span class="zg_rankNumber">([\d]+)\.<\/span>.*?<div class="zg_title"><a  href=".*?\/dp\/([0-9A-Z]{10})\/[^"]+">(.*?)<\/a><\/div>/is';
 		for ($i=1; $i <= 5; $i++) { 
+      // echo $item->link . '/?pg=' . $i;
 			$html = $this->__wget($item->link . '/?pg=' . $i);
 			preg_match_all($reg, $html, $matches);
 			foreach ($matches[0] as $key=>$match) {
 				$insert[] = array('dt' => $dt,'cat' => $ref, 'rank' => (int) $matches[1][$key], 'asin' => $matches[2][$key], 'name' => new MongoBinData($matches[3][$key]));
 			}
 		}
-		
+    // var_dump($insert);
 		if (count($insert) > 0) {
 			MAbsRanking::model()->getCollection()->batchInsert($insert);
 		}
